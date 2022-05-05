@@ -4,6 +4,7 @@ const Post = require('../models/post')
 const User = require('../models/user')
 const postController = require('../controller/uploadImage')
 const getPagination = require('../controller/paginate')
+const auth = require('../controller/auth')
 
 /* router.get('/', async (req, res) => {
     const { page, size } = req.query;
@@ -25,7 +26,7 @@ const getPagination = require('../controller/paginate')
     }
 }) */
 
-router.post('/addPost', postController, async (req, res) => {
+router.post('/addPost', auth, postController, async (req, res) => {
     const user = await User.findById(req.user.id)
     if (user) {
         const { _id, password, email, createdAt, updatedAt, __v, ...other } = user._doc
@@ -61,7 +62,7 @@ router.post('/addPost', postController, async (req, res) => {
     }
 })
 
-router.put('/like/:id', async (req, res) => {
+router.put('/like/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         if (!post.likes.includes(req.user.id)) {
@@ -84,7 +85,7 @@ router.put('/like/:id', async (req, res) => {
     }
 })
 
-router.put('/comment/:id', async (req, res) => {
+router.put('/comment/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
         const user = await User.findById(req.user.id)
@@ -117,8 +118,8 @@ router.put('/comment/:id', async (req, res) => {
     }
 })
 
-router.get('/allPosts', async (req, res) => {
-    var pageNo = parseInt(req.query.pageNo) || 1
+router.get('/allPosts', auth, async (req, res) => {
+    var pageNo = parseInt(req.query.pageNo)
     var size = parseInt(req.query.size)
     var query = {}
     if (pageNo < 0 || pageNo === 0) {
@@ -126,33 +127,34 @@ router.get('/allPosts', async (req, res) => {
         return res.json(response)
     }
     query.skip = size * (pageNo - 1)
-    query.limit = size
+    query.limit = size || 5
     // Find some documents
-    Post.count({}, function (err, totalCount) {
+    Post.count({}, async (err, totalCount) => {
         if (err) {
             response = { "error": true, "message": "Error fetching data" }
         }
-        Post.find({}, {}, query, function (err, data) {
-            // Mongo command to fetch all data from collection.
-            if (err) {
-                response = { "error": true, "message": "Error fetching data" };
-            } else {
-                var totalPages = Math.ceil(totalCount / size)
-                response = { "error": false, "message": data.reverse(), "pages": totalPages };
-            }
-            res.json(response);
-        });
+        const result = await Post.find().sort({ _id: -1 }).limit(query.limit).skip(query.skip).exec()
+        // Post.find({}, {}, query, function (err, data) {
+        // Mongo command to fetch all data from collection.
+        if (!result) {
+            response = { "error": true, "message": "Error fetching data" };
+        } else {
+            var totalPages = Math.ceil(totalCount / size)
+            response = { "error": false, "message": result, "pages": totalPages };
+        }
+        res.json(response);
+        // });
     })
 })
 
-// router.delete('/delete/:id', async (req, res) => {
-//     try {
-//         await Post.findByIdAndDelete(req.params.id)
-//         res.status(200).json('Product deleted successfully')
-//     } catch (err) {
-//         res.status(400).json(err)
-//     }
-// })
+router.delete('/delete/:id', auth, async (req, res) => {
+    try {
+        await Post.findByIdAndDelete(req.params.id)
+        res.status(200).json('post deleted successfully')
+    } catch (err) {
+        res.status(400).json(err)
+    }
+})
 
 
 module.exports = router
