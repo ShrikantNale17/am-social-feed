@@ -195,7 +195,7 @@ const Header = () => {
         </Box>
       </Modal>
 
-      <AppBar sx={{ bgcolor: "#097969" }} position="static">
+      <AppBar sx={{ bgcolor: "#097969" }} position="fixed">
         <Toolbar>
           <IconButton
             size="large"
@@ -236,7 +236,7 @@ const Header = () => {
                 onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
-                // className={classes.avatar}
+              // className={classes.avatar}
               >
                 {userData.name.charAt(0)}
               </Avatar>

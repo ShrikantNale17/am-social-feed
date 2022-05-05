@@ -86,35 +86,41 @@ router.put('/like/:id', auth, async (req, res) => {
 })
 
 router.put('/comment/:id', auth, async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        const user = await User.findById(req.user.id)
-        if (post) {
-            await post.updateOne({
-                $push: {
-                    comments: {
-                        userID: req.user.id,
-                        user: {
-                            name: user.firstname + ' ' + user.lastname,
-                            image: user.image
-                        },
-                        comment: req.body.comment
+    if (req.body.comment) {
+        try {
+            const post = await Post.findById(req.params.id)
+            const user = await User.findById(req.user.id)
+            if (post) {
+                await post.updateOne({
+                    $push: {
+                        comments: {
+                            userID: req.user.id,
+                            user: {
+                                name: user.firstname + ' ' + user.lastname,
+                                image: user.image
+                            },
+                            comment: req.body.comment
+                        }
                     }
-                }
-            })
+                })
 
-            const a1 = await Post.findById(req.params.id)
-            res.status(200).json({
-                message: 'comment added successfully ',
-                comments: a1.comments
-            })
-        } else {
-            res.status(200).json({
-                message: 'Post not found'
-            })
+                const a1 = await Post.findById(req.params.id)
+                res.status(200).json({
+                    message: 'comment added successfully ',
+                    comments: a1.comments
+                })
+            } else {
+                res.status(200).json({
+                    message: 'Post not found'
+                })
+            }
+        } catch (error) {
+            res.status(500).json(error)
         }
-    } catch (error) {
-        res.status(500).json(error)
+    } else {
+        res.json({
+            message: 'comment should not be empty'
+        })
     }
 })
 

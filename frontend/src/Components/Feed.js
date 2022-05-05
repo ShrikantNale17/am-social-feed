@@ -148,7 +148,7 @@ const Feed = (props) => {
       <Header CounterHandler={CounterHandler} />
       <Box
         style={{
-          margin: "40px",
+          marginTop: "70px",
         }}
       >
         <Grid container>
@@ -192,11 +192,10 @@ const Feed = (props) => {
                               sx={{ bgcolor: red[500] }}
                               aria-label="recipe"
                               // src={each.user.image}
-                              src={`http://localhost:8080/${
-                                users.filter(
-                                  (user) => each.userID === user._id
-                                )[0].image
-                              }`}
+                              src={`http://localhost:8080/${users.filter(
+                                (user) => each.userID === user._id
+                              )[0].image
+                                }`}
                             >
                               {/* {each.user?.firstname.charAt(0)} */}
                             </Avatar>
@@ -313,11 +312,10 @@ const Feed = (props) => {
                                           fontSize: "15px",
                                         }}
                                         aria-label="recipe"
-                                        src={`http://localhost:8080/${
-                                          users.filter(
-                                            (user) => each2.userID === user._id
-                                          )[0]?.image
-                                        }`}
+                                        src={`http://localhost:8080/${users.filter(
+                                          (user) => each2.userID === user._id
+                                        )[0]?.image
+                                          }`}
                                       >
                                         {/* {each2.user.charAt(0)} */}
                                       </Avatar>
