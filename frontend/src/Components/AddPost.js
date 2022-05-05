@@ -115,12 +115,10 @@ const AddPost = (props) => {
   console.log(addPost);
 
   //toaster
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
@@ -224,7 +222,7 @@ const AddPost = (props) => {
               POST
             </Button>
 
-            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
               <Alert
                 onClose={handleClose}
                 severity={toasterClr}

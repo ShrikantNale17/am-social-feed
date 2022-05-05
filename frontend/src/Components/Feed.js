@@ -347,7 +347,7 @@ const Feed = (props) => {
                                   </Button>
                                   <Snackbar
                                     open={open}
-                                    autoHideDuration={6000}
+                                    autoHideDuration={4000}
                                     onClose={handleClose}
                                   >
                                     <Alert

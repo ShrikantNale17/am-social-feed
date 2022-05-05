@@ -17,6 +17,12 @@ import FormLabel from "@mui/material/FormLabel";
 import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
 import { upload } from "@testing-library/user-event/dist/upload";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Edit_profile = ({ source, record = {} }) => {
   const Token = localStorage.getItem("Token");
@@ -48,6 +54,10 @@ const Edit_profile = ({ source, record = {} }) => {
     image: "",
     userID: id,
   });
+  const [open, setOpen] = React.useState(false);
+  const [toasterClr, setToasterClr] = useState("");
+  const [toasterMsg, setToasterMsg] = useState("");
+
   console.log(uploadImg);
   useEffect(() => {
     if (uploadImg.image) {
@@ -119,11 +129,18 @@ const Edit_profile = ({ source, record = {} }) => {
       )
       .then((res) => {
         console.log(res);
-        alert(res.message);
+        // alert(res.message);
+        setOpen(true);
+        setToasterClr("success");
+        setToasterMsg("Profile Updated  Successfully");
+
         Navigate("/");
       })
       .catch((err) => {
         console.log(err);
+        setOpen(true);
+        setToasterClr("error");
+        setToasterMsg("Profile Not Updated check the FEILDSS");
       });
   };
 
@@ -146,9 +163,15 @@ const Edit_profile = ({ source, record = {} }) => {
       )
       .then((res) => {
         console.log(res);
+        setOpen(true);
+        setToasterClr("success");
+        setToasterMsg("Profile Picture Uploaded Successfully");
       })
       .catch((err) => {
         console.log(err);
+        setOpen(true);
+        setToasterClr("error");
+        setToasterMsg("Profile Picture not uploaded");
       });
   };
   const removeImage = () => {
@@ -165,10 +188,24 @@ const Edit_profile = ({ source, record = {} }) => {
       .then((res) => {
         console.log(res);
         setImage(true);
+        setOpen(true);
+        setToasterClr("success");
+        setToasterMsg("Profile Picture Removed Successfully");
       })
       .catch((err) => {
         console.log(err);
+        setOpen(true);
+        setToasterClr("error");
+        setToasterMsg("Profile Picture Not Removed");
       });
+  };
+
+  //toaster
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
   };
 
   return (
@@ -221,6 +258,15 @@ const Edit_profile = ({ source, record = {} }) => {
                 </Box>
               )
             )}
+            <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity={toasterClr}
+                sx={{ width: "100%" }}
+              >
+                {toasterMsg}
+              </Alert>
+            </Snackbar>
             <Stack spacing={2} direction="row" m={4}>
               <input
                 type="file"
