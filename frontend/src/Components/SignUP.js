@@ -4,6 +4,14 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./CSS/SignUp.css";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const SignUP = () => {
   const emailregex = /^[\w%\+\-]+(\.[\w%\+\-]+)*@[\w%\+\-]+(\.[\w%\+\-]+)+$/;
   const passwordregex =
@@ -20,7 +28,9 @@ const SignUP = () => {
   const [tempState2, setTempState2] = useState(false);
   const [tempState3, setTempState3] = useState(false);
   const [toggle, settoggle] = useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const [toasterClr, setToasterClr] = useState("");
+  const [toasterMsg, setToasterMsg] = useState("");
   const fblur = (e) => {
     console.log(e.target.name);
     if (e.target.name === "firstname") {
@@ -48,16 +58,30 @@ const SignUP = () => {
   };
   console.log(userData);
 
+  // SNACKBAR..
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   const Confirm = () => {
     settoggle(true);
     axios
       .post("http://localhost:8080/users/SignUp", userData)
       .then((res) => {
         console.log(res);
+        setOpen(true);
+        setToasterMsg("Sign-Up Successful...");
+        setToasterClr("success");
         Navigate("/login");
       })
       .catch((err) => {
         console.log(err);
+        setOpen(true);
+        setToasterMsg("Sign-Up Not Successful Try Again...");
+        setToasterClr("error");
       });
   };
 
@@ -190,6 +214,20 @@ const SignUP = () => {
         >
           Confirm
         </Button>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          width="100px"
+        >
+          <Alert
+            onClose={handleClose}
+            severity={toasterClr}
+            sx={{ width: "100%" }}
+          >
+            {toasterMsg}
+          </Alert>
+        </Snackbar>
       </Box>
     </Box>
   );

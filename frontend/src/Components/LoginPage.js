@@ -4,6 +4,13 @@ import { Box } from "@mui/system";
 import "./CSS/LoginC.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const LoginPage = (props) => {
   useEffect(() => {
@@ -21,7 +28,9 @@ const LoginPage = (props) => {
   });
   const [tempState, setTempState] = useState(false);
   const [tempState1, setTempState1] = useState(false);
-
+  const [open, setOpen] = React.useState(false);
+  const [toasterClr, setToasterClr] = useState("");
+  const [toasterMsg, setToasterMsg] = useState("");
   const onBlurHandlerEmail = () => {
     if (userData.email) {
       setTempState(false);
@@ -46,6 +55,15 @@ const LoginPage = (props) => {
 
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+
+  // SNACKBAR..
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
+
   const confirm = () => {
     // settoggle(true);
     axios
@@ -55,13 +73,21 @@ const LoginPage = (props) => {
         tokenhandler(res.data);
         localStorage.setItem("Token", res.data.token);
         localStorage.setItem("id", res.data.user);
+        setOpen(true);
+        setToasterMsg("Login Successful...");
+        setToasterClr("success");
         Navigate("/");
       })
       .catch((err) => {
         console.log(err);
-        alert(err.message);
+        setOpen(true);
+        setToasterMsg("Login Not Successful Try Again...");
+        setToasterClr("error");
+        setUserData({ email: "", password: "" });
       });
   };
+
+  
 
   return (
     <Grid>
@@ -165,6 +191,20 @@ const LoginPage = (props) => {
           >
             Confirm
           </Button>
+          <Snackbar
+            open={open}
+            autoHideDuration={4000}
+            onClose={handleClose}
+            width="100px"
+          >
+            <Alert
+              onClose={handleClose}
+              severity={toasterClr}
+              sx={{ width: "100%" }}
+            >
+              {toasterMsg}
+            </Alert>
+          </Snackbar>
         </Box>
       </Box>
     </Grid>

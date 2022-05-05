@@ -141,6 +141,8 @@ const Feed = (props) => {
         borderLeft: "20px solid #AFE1AF",
         borderRight: "20px solid #AFE1AF",
         backgroundImage: `url(${whatsAppBack})`,
+        // backgroundRepeat: "no-repeat",
+        // backgroundSize: "cover",
       }}
     >
       <Header CounterHandler={CounterHandler} />
@@ -222,7 +224,10 @@ const Feed = (props) => {
                             {each.caption}
                           </Typography>
                         </CardContent>
-                        <CardActions disableSpacing>
+                        <CardActions
+                          disableSpacing
+                          sx={{ padding: "0px 10px" }}
+                        >
                           {each.likes.includes(uid) ? (
                             <IconButton aria-label="add to favorites">
                               <FavoriteIcon
@@ -253,33 +258,27 @@ const Feed = (props) => {
                           timeout="auto"
                           unmountOnExit
                         >
-                          <CardContent>
+                          <CardContent sx={{ padding: "0px 20px" }}>
                             <div
-                              style={{ display: "flex", flexDirection: "row" }}
+                              style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                margin: "0px",
+                              }}
                             >
-                              {/* <div>
-                                <TextareaAutosize
-                                  aria-label="minimum height"
-                                  minRows={3}
-                                  placeholder="Add Comment"
-                                  style={{ minWidth: 200, margin: "10px" }}
-                                  value={comment}
-                                  onChange={(e) => setComment(e.target.value)}
-                                />
-                              </div> */}
                               <div>
                                 <TextField
                                   id="standard-basic"
                                   label="Add Comment"
                                   variant="standard"
                                   // placeholder="Add Comment"
-                                  style={{ minWidth: 350, margin: "10px" }}
+                                  style={{ minWidth: 370, margin: "10px" }}
                                   value={comment}
                                   onChange={(e) => setComment(e.target.value)}
                                   fullWidth
                                 />
                               </div>
-                              <div>
+                              <div style={{ margin: "auto" }}>
                                 <Button
                                   size="small"
                                   sx={{
@@ -292,7 +291,7 @@ const Feed = (props) => {
                                 </Button>
                               </div>
                             </div>
-                            <h4>All Comments:-</h4>
+                            <h4 style={{ padding: "0px" }}>All Comments:-</h4>
                             {each.comments?.map((each2) => {
                               return (
                                 <>
@@ -331,7 +330,7 @@ const Feed = (props) => {
                                           alignItems: "center",
                                         }}
                                       >
-                                        <h4>
+                                        <h4 style={{ margin: "10px" }}>
                                           {users.filter(
                                             (user) => each2.userID === user._id
                                           )[0]?.firstname +
@@ -344,7 +343,9 @@ const Feed = (props) => {
                                         </h4>
 
                                         <div>
-                                          <p> {each2.comment}</p>
+                                          <p style={{ margin: "10px" }}>
+                                            {each2.comment}
+                                          </p>
                                         </div>
                                       </div>
                                     </div>
