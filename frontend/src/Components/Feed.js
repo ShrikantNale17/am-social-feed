@@ -1,9 +1,11 @@
-import { Box, Button, Grid, Input } from "@mui/material";
+import { Box, Button, Grid, Input, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddPost from "./AddPost";
 import Header from "./Header";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
+import whatsAppBack from "./Images/whatsappBack.jpg";
 
+// import whatsAppBack from "./Images"
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
@@ -39,10 +41,10 @@ const Feed = (props) => {
   // console.log(Token, "hey");
   const key = tokenApp.token;
   const [allPost, SetAllPost] = useState([]);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [expanded, setExpanded] = React.useState(-1);
   const [counter, SetCounter] = useState();
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
   const CounterHandler = (count) => {
     console.log(count);
     SetCounter(count);
@@ -114,30 +116,31 @@ const Feed = (props) => {
         }
       )
       .then((res) => console.log(res));
-    setComment('')
+    setComment("");
     getAllPosts();
-  }
+  };
 
   const getAllUsers = async (id) => {
-    await axios.get(`http://localhost:8080/users`,
-      {
+    await axios
+      .get(`http://localhost:8080/users`, {
         headers: {
           authorization: Token,
         },
       })
-      .then(res => {
-        console.log(res)
-        setUsers(res.data)
-      })
-  }
+      .then((res) => {
+        console.log(res);
+        setUsers(res.data);
+      });
+  };
 
   return (
     <div
       style={{
-        height: "100vh",
+        height: "100%",
         borderTop: "10px solid #AFE1AF",
         borderLeft: "20px solid #AFE1AF",
         borderRight: "20px solid #AFE1AF",
+        backgroundImage: `url(${whatsAppBack})`,
       }}
     >
       <Header CounterHandler={CounterHandler} />
@@ -157,7 +160,9 @@ const Feed = (props) => {
           <Grid item md={12}>
             <Grid container spacing={3} rowSpacing={2}>
               {allPost?.map((each, i) => {
-                console.log(users.filter(user => each.userID === user._id)[0].image);
+                console.log(
+                  users.filter((user) => each.userID === user._id)[0].image
+                );
                 return (
                   <>
                     {console.log(each)}
@@ -172,10 +177,10 @@ const Feed = (props) => {
                     >
                       <Card
                         sx={{
-                          minWidth: 345,
-                          maxWidth: 345,
-                          padding: "15px",
-                          border: "1px solid black",
+                          minWidth: 500,
+                          maxWidth: 500,
+                          // padding: "15px",
+                          // border: "1px solid black",
                           marginRight: "20px",
                         }}
                       >
@@ -185,14 +190,19 @@ const Feed = (props) => {
                               sx={{ bgcolor: red[500] }}
                               aria-label="recipe"
                               // src={each.user.image}
-                              src={`http://localhost:8080/${users.filter(user => each.userID === user._id)[0].image}`}
+                              src={`http://localhost:8080/${
+                                users.filter(
+                                  (user) => each.userID === user._id
+                                )[0].image
+                              }`}
                             >
                               {/* {each.user?.firstname.charAt(0)} */}
                             </Avatar>
                           }
                           titleTypographyProps={{ variant: "h5" }}
                           title={
-                            users.filter(user => each.userID === user._id)[0].firstname
+                            users.filter((user) => each.userID === user._id)[0]
+                              .firstname
                           }
                           action={
                             <IconButton aria-label="settings">
@@ -203,7 +213,7 @@ const Feed = (props) => {
                         {console.log(each.image)}
                         <CardMedia
                           component="img"
-                          height="194"
+                          height="294"
                           image={`http://localhost:8080/${each.image}`}
                           alt="Paella dish"
                         />
@@ -247,14 +257,26 @@ const Feed = (props) => {
                             <div
                               style={{ display: "flex", flexDirection: "row" }}
                             >
-                              <div>
+                              {/* <div>
                                 <TextareaAutosize
                                   aria-label="minimum height"
                                   minRows={3}
                                   placeholder="Add Comment"
                                   style={{ minWidth: 200, margin: "10px" }}
                                   value={comment}
-                                  onChange={e => setComment(e.target.value)}
+                                  onChange={(e) => setComment(e.target.value)}
+                                />
+                              </div> */}
+                              <div>
+                                <TextField
+                                  id="standard-basic"
+                                  label="Add Comment"
+                                  variant="standard"
+                                  // placeholder="Add Comment"
+                                  style={{ minWidth: 350, margin: "10px" }}
+                                  value={comment}
+                                  onChange={(e) => setComment(e.target.value)}
+                                  fullWidth
                                 />
                               </div>
                               <div>
@@ -292,7 +314,11 @@ const Feed = (props) => {
                                           fontSize: "15px",
                                         }}
                                         aria-label="recipe"
-                                        src={`http://localhost:8080/${users.filter(user => each2.userID === user._id)[0]?.image}`}
+                                        src={`http://localhost:8080/${
+                                          users.filter(
+                                            (user) => each2.userID === user._id
+                                          )[0]?.image
+                                        }`}
                                       >
                                         {/* {each2.user.charAt(0)} */}
                                       </Avatar>
@@ -305,7 +331,17 @@ const Feed = (props) => {
                                           alignItems: "center",
                                         }}
                                       >
-                                        <h4>{users.filter(user => each2.userID === user._id)[0]?.firstname + '' + users.filter(user => each2.userID === user._id)[0]?.lastname} : </h4>
+                                        <h4>
+                                          {users.filter(
+                                            (user) => each2.userID === user._id
+                                          )[0]?.firstname +
+                                            "" +
+                                            users.filter(
+                                              (user) =>
+                                                each2.userID === user._id
+                                            )[0]?.lastname}{" "}
+                                          :{" "}
+                                        </h4>
 
                                         <div>
                                           <p> {each2.comment}</p>

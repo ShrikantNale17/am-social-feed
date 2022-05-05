@@ -9,7 +9,9 @@ import TextareaAutosize from "@mui/material/TextareaAutosize";
 import axios from "axios";
 import "./CSS/AddPostc.css";
 import { useNavigate } from "react-router-dom";
-
+import lightWhatsImg from "./Images/lightWhatsImg.png";
+import { Box } from "@mui/system";
+import { TextField } from "@mui/material";
 const AddPost = (props) => {
   const Navigate = useNavigate();
   var { CounterHandler } = props;
@@ -98,13 +100,21 @@ const AddPost = (props) => {
         padding: "15px",
         border: "1px solid black",
         marginRight: "20px",
+        backgroundImage: `url(${lightWhatsImg})`,
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        minWidth: 400,
+        maxWidth: 400,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       <Typography
         variant="h5"
         sx={{
           display: "flex",
-          margin: "20px",
+          margin: "10px",
           justifyContent: "center",
         }}
         gutterBottom
@@ -112,42 +122,79 @@ const AddPost = (props) => {
       >
         Add Post
       </Typography>
-
-      <img
-        src={addPost.image ? preview : tempImg}
-        alt=""
-        className="image"
-        id="output"
-      />
-
-      <input
-        style={{ padding: "16px", wordWrap: " break-word" }}
-        type="file"
-        accept="image/*"
-        onChange={(e) => uploadPicHandler(e)}
-      />
-      <CardContent>
-        {/* <Typography gutterBottom variant="h5" component="div">
-          Picture
-        </Typography> */}
-        <TextareaAutosize
-          aria-label="minimum height"
-          minRows={3}
-          value={addPost.caption}
-          onChange={(e) => setAddPost({ ...addPost, caption: e.target.value })}
-          placeholder="caption"
-          style={{ width: "80%" }}
-        />
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          sx={{ color: "#097969", fontWeight: "bolder" }}
-          onClick={PostHandler}
-        >
-          POST
-        </Button>
-      </CardActions>
+      <Box
+        sx={{
+          margin: "auto",
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Box>
+          <img
+            src={addPost.image ? preview : tempImg}
+            alt=""
+            className="image"
+            id="output"
+            style={{ width: "200px", height: "200px" }}
+          />
+        </Box>
+        <Box>
+          <input
+            style={{
+              padding: "16px",
+              wordWrap: " break-word",
+              // marginLeft: "70px",
+            }}
+            type="file"
+            accept="image/*"
+            onChange={(e) => uploadPicHandler(e)}
+          />
+        </Box>
+      </Box>
+      <Box style={{ display: "flex", flexDirection: "row", margin: "auto" }}>
+        <Box>
+          <CardContent>
+            <TextField
+              id="outlined-basic"
+              // label="Caption"
+              variant="outlined"
+              placeholder="Add Caption ..."
+              value={addPost.caption}
+              onChange={(e) =>
+                setAddPost({ ...addPost, caption: e.target.value })
+              }
+              // style={{ width: "80%" }}
+              inputProps={{
+                style: {
+                  fontFamily: "nunito",
+                  color: "Black",
+                  border: "1px solid #097969",
+                  width: "150%",
+                },
+              }}
+              fullWidth
+            />
+          </CardContent>
+        </Box>
+        <Box>
+          <CardActions>
+            <Button
+              size="small"
+              sx={{
+                color: "#097969",
+                fontWeight: "bolder",
+                padding: "20px 20px 20px 7px",
+                margin: "none",
+                fontSize: "16px",
+              }}
+              onClick={PostHandler}
+            >
+              POST
+            </Button>
+          </CardActions>
+        </Box>
+      </Box>
     </Card>
   );
 };

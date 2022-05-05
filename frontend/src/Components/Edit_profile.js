@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
-
+import whatsAppBack from "./Images/whatsappBack.jpg";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -177,7 +177,7 @@ const Edit_profile = ({ source, record = {} }) => {
     <Box
       style={{
         height: "100vh",
-
+        backgroundImage: `url(${whatsAppBack})`,
         borderTop: "10px solid #AFE1AF",
         borderLeft: "20px solid #AFE1AF",
         borderRight: "20px solid #AFE1AF",
