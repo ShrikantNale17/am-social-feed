@@ -12,6 +12,14 @@ import { useNavigate } from "react-router-dom";
 import lightWhatsImg from "./Images/lightWhatsImg.png";
 import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const AddPost = (props) => {
   const Navigate = useNavigate();
   var { CounterHandler, getAllPosts } = props;
@@ -29,6 +37,10 @@ const AddPost = (props) => {
     image: "",
     caption: "",
   });
+
+  const [open, setOpen] = React.useState(false);
+  const [toasterClr, setToasterClr] = React.useState("");
+  const [toasterMsg, setToasterMsg] = React.useState("");
 
   React.useEffect(() => {
     if (!localStorage.getItem("Token")) {
@@ -83,17 +95,35 @@ const AddPost = (props) => {
         var temp = count + 1;
         setCount(count + 1);
         CounterHandler = temp;
+        setAddPost({ userID: id, image: "", caption: "" });
+        setOpen(true);
+        setToasterClr("success");
+        setToasterMsg("Post Added Successfully...");
       })
       .catch((err) => {
         console.log(err);
         formData.delete("image");
         formData.delete("caption");
         formData.delete("userId");
+        setOpen(true);
+        setToasterClr("error");
+        setToasterMsg("Post Not Added Try Again...");
       });
     setAddPost({ userID: id, image: "", caption: "" });
     getAllPosts();
   };
   console.log(addPost);
+
+  //toaster
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <Card
       sx={{
@@ -193,6 +223,16 @@ const AddPost = (props) => {
             >
               POST
             </Button>
+
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity={toasterClr}
+                sx={{ width: "100%" }}
+              >
+                {toasterMsg}
+              </Alert>
+            </Snackbar>
           </CardActions>
         </Box>
       </Box>

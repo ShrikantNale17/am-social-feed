@@ -31,32 +31,64 @@ const SignUP = () => {
   const [open, setOpen] = React.useState(false);
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
-  const fblur = (e) => {
-    console.log(e.target.name);
+  // const fblur = (e) => {
+  //   console.log(e.target.name);
+  //   if (e.target.name === "firstname") {
+  //     userData.firstname ? setTempState(false) : setTempState(true);
+  //   } else if (e.target.name === "lastname") {
+  //     userData.lastname ? setTempState1(false) : setTempState1(true);
+  //   } else if (e.target.name === "email") {
+  //     userData.email ? setTempState2(false) : setTempState2(true);
+  //   } else if (e.target.name === "password") {
+  //     userData.password ? setTempState3(false) : setTempState3(true);
+  //   }
+  // };
+
+  const onChangeHandler = (e) => {
     if (e.target.name === "firstname") {
-      userData.firstname ? setTempState(false) : setTempState(true);
+      setTempState(false);
     } else if (e.target.name === "lastname") {
-      userData.lastname ? setTempState1(false) : setTempState1(true);
+      setTempState1(false);
     } else if (e.target.name === "email") {
-      userData.email ? setTempState2(false) : setTempState2(true);
+      setTempState2(false);
     } else if (e.target.name === "password") {
-      userData.password ? setTempState3(false) : setTempState3(true);
+      setTempState3(false);
+    }
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+  console.log(userData);
+
+  const onBlurHandler = () => {
+    if (userData.firstname) {
+      setTempState(false);
+    } else {
+      setTempState(true);
     }
   };
 
-  const onChangeHandler = (e) => {
-    setUserData({ ...userData, [e.target.name]: e.target.value });
-    if (e.target.name === "firstname") {
-      userData.firstname ? setTempState(false) : setTempState(true);
-    } else if (e.target.name === "lastname") {
-      userData.lastname ? setTempState1(false) : setTempState1(true);
-    } else if (e.target.name === "email") {
-      userData.email ? setTempState2(false) : setTempState2(true);
-    } else if (e.target.name === "password") {
-      userData.password ? setTempState3(false) : setTempState3(true);
+  const onBlurHandler1 = () => {
+    if (userData.lastname) {
+      setTempState1(false);
+    } else {
+      setTempState1(true);
     }
   };
-  console.log(userData);
+
+  const onBlurHandler2 = () => {
+    if (userData.email && emailregex.test(userData.email)) {
+      setTempState2(false);
+    } else {
+      setTempState2(true);
+    }
+  };
+
+  const onBlurHandler3 = () => {
+    if (userData.password && passwordregex.test(userData.password)) {
+      setTempState3(false);
+    } else {
+      setTempState3(true);
+    }
+  };
 
   // SNACKBAR..
   const handleClose = (event, reason) => {
@@ -68,21 +100,40 @@ const SignUP = () => {
 
   const Confirm = () => {
     settoggle(true);
-    axios
-      .post("http://localhost:8080/users/SignUp", userData)
-      .then((res) => {
-        console.log(res);
-        setOpen(true);
-        setToasterMsg("Sign-Up Successful...");
-        setToasterClr("success");
-        Navigate("/login");
-      })
-      .catch((err) => {
-        console.log(err);
-        setOpen(true);
-        setToasterMsg("Sign-Up Not Successful Try Again...");
-        setToasterClr("error");
-      });
+
+    if (
+      userData.firstname &&
+      userData.lastname &&
+      userData.email &&
+      userData.password
+    ) {
+      axios
+        .post("http://localhost:8080/users/SignUp", userData)
+        .then((res) => {
+          console.log(res);
+          setOpen(true);
+          setToasterMsg("Sign-Up Successful...");
+          setToasterClr("success");
+          console.log(res);
+          if (res.data === "Email already exists") {
+            setOpen(true);
+            setToasterMsg("Email already exists");
+            setToasterClr("error");
+          } else {
+            Navigate("/login");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setOpen(true);
+          setToasterMsg("Sign-Up Not Successful Try Again...");
+          setToasterClr("error");
+        });
+    } else {
+      setOpen(true);
+      setToasterMsg("Enter valid Fieldsss....");
+      setToasterClr("success");
+    }
   };
 
   return (
@@ -126,7 +177,7 @@ const SignUP = () => {
             {/* <label>First Name</label> */}
             <TextField
               value={userData.firstname}
-              onBlur={fblur}
+              onBlur={onBlurHandler}
               name="firstname"
               error={tempState ? true : undefined}
               onChange={onChangeHandler}
@@ -141,7 +192,7 @@ const SignUP = () => {
             {/* <label>Last Name</label> */}
             <TextField
               value={userData.lastname}
-              onBlur={fblur}
+              onBlur={onBlurHandler1}
               name="lastname"
               error={tempState1 ? true : undefined}
               onChange={onChangeHandler}
@@ -156,7 +207,7 @@ const SignUP = () => {
             {/* <label>Email</label> */}
             <TextField
               value={userData.email}
-              onBlur={fblur}
+              onBlur={onBlurHandler2}
               name="email"
               error={tempState2 ? true : undefined}
               helperText={tempState2 ? "Enter valid Email id" : ""}
@@ -171,25 +222,13 @@ const SignUP = () => {
             {/* <label>Password</label> */}
             <TextField
               fullWidth
-              onBlur={fblur}
+              onBlur={onBlurHandler3}
               name="password"
               type="password"
-              error={
-                toggle
-                  ? !passwordregex.test(userData.password)
-                    ? true
-                    : undefined
-                  : undefined
-              }
               value={userData.password}
               onChange={onChangeHandler}
-              helperText={
-                tempState3
-                  ? !passwordregex.test(userData.password)
-                    ? "password not strong..."
-                    : ""
-                  : ""
-              }
+              error={tempState3 ? true : undefined}
+              helperText={tempState3 ? "Enter valid Password" : ""}
               id="outlined-basic"
               placeholder="Enter Password"
               variant="outlined"

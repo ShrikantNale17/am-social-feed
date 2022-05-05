@@ -31,6 +31,8 @@ const Edit_profile = ({ source, record = {} }) => {
   const formData = new FormData();
   const [tempState, setTempState] = useState(false);
   const [tempState1, setTempState1] = useState(false);
+  const [tempState2, setTempState2] = useState(false);
+  const [tempState3, setTempState3] = useState(false);
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
@@ -85,25 +87,21 @@ const Edit_profile = ({ source, record = {} }) => {
   console.log(oldProfilePic);
 
   const onChangeHandler = (e) => {
-    setUserData({ ...userData, firstname: e.target.value });
-  };
-
-  const onChangeHandler1 = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
-  };
-  const onChangeHandler3 = (e) => {
-    setUserData({ ...userData, [e.target.name]: +e.target.value });
   };
 
   const onBlurFun = (e) => {
-    if (e.target.name === "firstname") {
-      !userData.name ? setTempState(true) : setTempState(false);
+    if (userData.email && emailregex.test(userData.email)) {
+      setTempState1(false);
+    } else {
+      setTempState1(true);
     }
-
-    if (e.target.name === "email") {
-      emailregex.test(userData.email)
-        ? setTempState1(false)
-        : setTempState1(true);
+  };
+  const onBlurFun1 = (e) => {
+    if (userData.mobile && userData.mobile.length === 10) {
+      setTempState2(false);
+    } else {
+      setTempState2(true);
     }
   };
   const save = () => {
@@ -264,7 +262,7 @@ const Edit_profile = ({ source, record = {} }) => {
                   name="userName"
                   value={userData.firstname}
                   onChange={onChangeHandler}
-                  onBlur={onBlurFun}
+                  // onBlur={onBlurFun}
                   label="Name"
                   error={tempState ? true : undefined}
                   helperText={tempState ? "Enter Name" : ""}
@@ -280,7 +278,7 @@ const Edit_profile = ({ source, record = {} }) => {
                 <TextField
                   name="email"
                   value={userData.email}
-                  onChange={onChangeHandler1}
+                  onChange={onChangeHandler}
                   sx={{ bgcolor: "white" }}
                   fullWidth
                   id="outlined-basic"
@@ -298,7 +296,7 @@ const Edit_profile = ({ source, record = {} }) => {
                 <TextareaAutosize
                   name="bio"
                   value={userData.bio}
-                  onChange={onChangeHandler1}
+                  onChange={onChangeHandler}
                   aria-label="Bio "
                   minRows={4}
                   placeholder="Bio"
@@ -311,9 +309,14 @@ const Edit_profile = ({ source, record = {} }) => {
                 <TextField
                   name="mobile"
                   value={userData.mobile}
-                  onChange={onChangeHandler3}
+                  onChange={onChangeHandler}
                   sx={{ bgcolor: "white" }}
                   fullWidth
+                  onBlur={onBlurFun1}
+                  error={tempState2 ? true : undefined}
+                  helperText={
+                    tempState2 ? "Enter valid 10 digit mobile number" : ""
+                  }
                   label="Mobile"
                   id="outlined-basic"
                   variant="outlined"

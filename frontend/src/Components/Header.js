@@ -17,6 +17,14 @@ import { Avatar, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CloudDone } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
+import Stack from "@mui/material/Stack";
+import MuiAlert from "@mui/material/Alert";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const style = {
   position: "absolute",
@@ -59,7 +67,7 @@ const Header = () => {
       });
   }, []);
   console.log(userData);
-
+  const [tempState, setTempState] = React.useState(true);
   React.useEffect(() => {
     axios
       .get(`http://localhost:8080/users/user/${id}`, {
@@ -115,20 +123,27 @@ const Header = () => {
 
   const save = () => {
     console.log(currentPass);
-    axios
-      .put(`http://localhost:8080/users/changePassword/${id}`, currentPass, {
-        headers: {
-          authorization: Token,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setOpen(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("current  password is wrong");
-      });
+    if (currentPass.newPassword) {
+      axios
+        .put(`http://localhost:8080/users/changePassword/${id}`, currentPass, {
+          headers: {
+            authorization: Token,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          setOpen(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("current  password is wrong");
+          setcurrentPass((pre) => ({ ...pre, currentPassword: "" }));
+          setPassword({ confirm1: "", confirm2: "" });
+        });
+    } else {
+      setPassword({ confirm1: "", confirm2: "" });
+      alert("Enter Correct Password Fieldsss///");
+    }
   };
 
   const Logout = () => {
@@ -136,7 +151,7 @@ const Header = () => {
     handleClose();
     Navigate("/login");
   };
-
+  console.log(currentPass);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Modal
@@ -155,7 +170,7 @@ const Header = () => {
                 Current Password
               </Typography>
               <TextField
-                value={currentPass.confirm2}
+                value={currentPass.currentPassword}
                 type="password"
                 onChange={(e) => {
                   setcurrentPass({
@@ -182,7 +197,7 @@ const Header = () => {
               </Typography>
               <TextField
                 type="password"
-                value={password.currentPassword}
+                value={password.confirm2}
                 onChange={confirmedFun}
               ></TextField>
             </div>
@@ -236,7 +251,7 @@ const Header = () => {
                 onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
-              // className={classes.avatar}
+                // className={classes.avatar}
               >
                 {userData.name.charAt(0)}
               </Avatar>

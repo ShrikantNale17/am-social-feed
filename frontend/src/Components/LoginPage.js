@@ -32,7 +32,7 @@ const LoginPage = (props) => {
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
   const onBlurHandlerEmail = () => {
-    if (userData.email) {
+    if (userData.email && emailregex.test(userData.email)) {
       setTempState(false);
     } else {
       setTempState(true);
@@ -73,21 +73,27 @@ const LoginPage = (props) => {
         tokenhandler(res.data);
         localStorage.setItem("Token", res.data.token);
         localStorage.setItem("id", res.data.user);
+
         setOpen(true);
         setToasterMsg("Login Successful...");
         setToasterClr("success");
-        Navigate("/");
+        setTimeout(() => Navigate("/"), 1000);
       })
       .catch((err) => {
         console.log(err);
-        setOpen(true);
-        setToasterMsg("Login Not Successful Try Again...");
-        setToasterClr("error");
-        setUserData({ email: "", password: "" });
+        if (err.response.data.message === "Password is incorrect") {
+          setOpen(true);
+          setToasterMsg("Username or Password is incorrect");
+          setToasterClr("error");
+          // setUserData({ email: "", password: "" });
+        } else {
+          setOpen(true);
+          setToasterMsg("Login Not Successful Try Again...");
+          setToasterClr("error");
+          setUserData({ email: "", password: "" });
+        }
       });
   };
-
-  
 
   return (
     <Grid>
@@ -138,6 +144,7 @@ const LoginPage = (props) => {
                 onChange={onchangeHandler}
                 name="email"
                 label="email"
+                type="email"
                 id="outlined-basic"
                 placeholder="Enter Email"
                 variant="outlined"
