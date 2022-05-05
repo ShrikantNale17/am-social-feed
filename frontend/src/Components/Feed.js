@@ -148,7 +148,7 @@ const Feed = (props) => {
       <Header CounterHandler={CounterHandler} />
       <Box
         style={{
-          marginTop: "70px",
+          marginTop: "100px",
         }}
       >
         <Grid container>
@@ -157,7 +157,7 @@ const Feed = (props) => {
             md={12}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            <AddPost tokenApp={tokenApp} />
+            <AddPost tokenApp={tokenApp} getAllPosts={getAllPosts} />
           </Grid>
           <Grid item md={12}>
             <Grid container spacing={3} rowSpacing={2}>

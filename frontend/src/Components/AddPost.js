@@ -14,7 +14,7 @@ import { Box } from "@mui/system";
 import { TextField } from "@mui/material";
 const AddPost = (props) => {
   const Navigate = useNavigate();
-  var { CounterHandler } = props;
+  var { CounterHandler, getAllPosts } = props;
   const Token = localStorage.getItem("Token");
   const id = localStorage.getItem("id");
   const [count, setCount] = React.useState(1);
@@ -91,6 +91,7 @@ const AddPost = (props) => {
         formData.delete("userId");
       });
     setAddPost({ userID: id, image: "", caption: "" });
+    getAllPosts();
   };
   console.log(addPost);
   return (
