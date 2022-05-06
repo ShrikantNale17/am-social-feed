@@ -107,6 +107,7 @@ const Feed = (props) => {
 
   const handleLike = async (postID) => {
     console.log(uid);
+    SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, likes: post.likes.includes(uid) ? post.likes.filter(userID => userID !== uid) : [...post.likes, uid] } : post))
     await axios
       .put(
         `http://localhost:8080/posts/like/${postID}`,
@@ -118,9 +119,11 @@ const Feed = (props) => {
         }
       )
       .then((res) => console.log(res));
-    getAllPosts();
+    // getAllPosts();
+    // SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, likes: post.likes.includes(uid) ? post.likes.filter(userID => userID !== uid) : [...post.likes, uid] } : post))
   };
   const handleComment = async (postID) => {
+    SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, comments: [...post.comments, { userID: uid, comment: comment }] } : post))
     await axios
       .put(
         `http://localhost:8080/posts/comment/${postID}`,
@@ -133,7 +136,7 @@ const Feed = (props) => {
       )
       .then((res) => console.log(res));
     setComment("");
-    getAllPosts();
+    // getAllPosts();
     setOpen(true);
     setToasterClr("success");
     setToasterMsg("comment Added Successfully...");
@@ -261,11 +264,10 @@ const Feed = (props) => {
                                 sx={{ bgcolor: red[500] }}
                                 aria-label="recipe"
                                 // src={each.user.image}
-                                src={`http://localhost:8080/${
-                                  users.filter(
-                                    (user) => each.userID === user._id
-                                  )[0].image
-                                }`}
+                                src={`http://localhost:8080/${users.filter(
+                                  (user) => each.userID === user._id
+                                )[0].image
+                                  }`}
                               >
                                 {/* {each.user?.firstname.charAt(0)} */}
                               </Avatar>
@@ -396,12 +398,11 @@ const Feed = (props) => {
                                             fontSize: "15px",
                                           }}
                                           aria-label="recipe"
-                                          src={`http://localhost:8080/${
-                                            users.filter(
-                                              (user) =>
-                                                each2.userID === user._id
-                                            )[0]?.image
-                                          }`}
+                                          src={`http://localhost:8080/${users.filter(
+                                            (user) =>
+                                              each2.userID === user._id
+                                          )[0]?.image
+                                            }`}
                                         >
                                           {/* {each2.user.charAt(0)} */}
                                         </Avatar>
