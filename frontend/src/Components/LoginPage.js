@@ -110,10 +110,22 @@ const LoginPage = (props) => {
           localStorage.setItem("id", res.data.user._id);
           // props.setToken(res.data.token);
           // props?.handleClick("Login Successful !");
+          setOpen(true);
+          setToasterMsg("Login Successful...");
+          setToasterClr("success");
+
           setTimeout(() => Navigate("/"), 1000);
         } else {
           alert(res)
         }
+      })
+      .catch((err) => {
+        console.log(err);
+        setOpen(true);
+        setToasterMsg("Login Not Successful Try Again...");
+        setToasterClr("error");
+        // setUserData({ email: "", password: "" });
+
       });
   };
 
