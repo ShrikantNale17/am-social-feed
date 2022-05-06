@@ -350,7 +350,7 @@ const Feed = (props) => {
                             >
                               <ExpandMoreIcon />
                             </ExpandMore>
-                            <h4 style={{ textAlign: "left" }}>Comments</h4>
+                            <h4 style={{ textAlign: "left" }}>{each.comments.length + ' '} Comments</h4>
                           </CardActions>
                           <Collapse
                             in={expanded === i}
