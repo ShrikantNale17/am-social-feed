@@ -8,7 +8,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import SignUP from "./Components/SignUP";
 import LoginPage from "./Components/LoginPage";
 import Feed from "./Components/Feed";
-import Edit_profile from "./Components/Edit_profile";
+import EditProfile from "./Components/EditProfile";
 import { useState } from "react";
 import Header from "./Components/Header";
 import AddPost from "./Components/AddPost";
@@ -32,10 +32,7 @@ function App() {
             element={<LoginPage tokenhandler={tokenhandler} />}
           />
           <Route path="/" element={<Feed tokenApp={tokenApp} />} />
-          <Route
-            path="/edit-profile"
-            element={<Edit_profile tokenApp={tokenApp} />}
-          />
+          <Route path="/edit-profile" element={<EditProfile />} />
         </Routes>
       </BrowserRouter>
     </div>

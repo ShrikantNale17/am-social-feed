@@ -21,6 +21,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 const AddPost = (props) => {
+  const imageRef = React.useRef();
   const Navigate = useNavigate();
   var { CounterHandler, getAllPosts, setPage } = props;
   const Token = localStorage.getItem("Token");
@@ -64,9 +65,11 @@ const AddPost = (props) => {
         ...addPost,
         image: undefined,
       });
+
       return;
     }
     setAddPost({ ...addPost, image: e.target.files[0] });
+    // imageRef.current.value = null;
   };
 
   // var output = document.getElementById("output");
@@ -99,6 +102,7 @@ const AddPost = (props) => {
         setOpen(true);
         setToasterClr("success");
         setToasterMsg("Post Added Successfully...");
+        imageRef.current.value = null;
       })
       .catch((err) => {
         console.log(err);
@@ -177,6 +181,7 @@ const AddPost = (props) => {
               // marginLeft: "70px",
             }}
             type="file"
+            ref={imageRef}
             accept="image/*"
             onChange={(e) => uploadPicHandler(e)}
           />

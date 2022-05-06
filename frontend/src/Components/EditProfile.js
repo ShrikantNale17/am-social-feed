@@ -1,6 +1,6 @@
 import { Avatar, Grid, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import FormControl from "@mui/material/FormControl";
@@ -26,7 +26,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Edit_profile = ({ source, record = {} }) => {
+const EditProfile = () => {
+  const imageRef = useRef();
   const Token = localStorage.getItem("Token");
   const id = localStorage.getItem("id");
   console.log(Token, "hey");
@@ -35,7 +36,7 @@ const Edit_profile = ({ source, record = {} }) => {
   const Navigate = useNavigate();
   var tempImage =
     "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
-  const [userD, setUserD] = useState();
+
   const formData = new FormData();
   const [tempState, setTempState] = useState(false);
   const [tempState1, setTempState1] = useState(false);
@@ -60,7 +61,7 @@ const Edit_profile = ({ source, record = {} }) => {
   const [open, setOpen] = useState(false);
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
-
+  const [temp, setTemp] = useState("");
   console.log(uploadImg);
   useEffect(() => {
     if (uploadImg.image) {
@@ -72,6 +73,7 @@ const Edit_profile = ({ source, record = {} }) => {
     if (!localStorage.getItem("Token")) {
       Navigate("/login");
     }
+    console.log("first");
     axios
       .get(`http://localhost:8080/users/user/${id}`, {
         headers: {
@@ -79,7 +81,6 @@ const Edit_profile = ({ source, record = {} }) => {
         },
       })
       .then((res) => {
-        setUserD(res.data);
         setUserData({
           ...userData,
           firstname: res.data.firstname,
@@ -96,9 +97,13 @@ const Edit_profile = ({ source, record = {} }) => {
         console.log(err);
       });
   }, [counter]);
-  console.log(userD);
+
   console.log(oldProfilePic);
 
+  const uploadImgFun = (e) => {
+    setuploadImg({ ...uploadImg, image: e.target.files[0] });
+    setImageUrl(URL.createObjectURL(e.target.files[0]));
+  };
   const onChangeHandler = (e) => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
@@ -118,8 +123,7 @@ const Edit_profile = ({ source, record = {} }) => {
     }
   };
   const save = () => {
-    //localhost:8080/users/edit-profile/userDetails/:id
-    console.log(userData);
+    console.log(temp);
     axios
       .put(
         `http://localhost:8080/users/edit-profile/userDetails/${id}`,
@@ -136,7 +140,6 @@ const Edit_profile = ({ source, record = {} }) => {
         setOpen(true);
         setToasterClr("success");
         setToasterMsg("Profile Updated  Successfully");
-
         Navigate("/");
       })
       .catch((err) => {
@@ -170,8 +173,11 @@ const Edit_profile = ({ source, record = {} }) => {
       .then((res) => {
         console.log(res);
         setOpen(true);
+        setImage(true);
+        setCounter((prev) => prev + 1);
         setToasterClr("success");
         setToasterMsg("Profile Picture Uploaded Successfully");
+        imageRef.current.vale = null;
       })
       .catch((err) => {
         console.log(err);
@@ -197,7 +203,10 @@ const Edit_profile = ({ source, record = {} }) => {
         setOpen(true);
         setToasterClr("success");
         setToasterMsg("Profile Picture Removed Successfully");
-        setCounter(counter + 1);
+        setCounter((prev) => prev + 1);
+        formData.delete("image");
+        formData.delete("userID");
+        setTemp("removed");
       })
       .catch((err) => {
         console.log(err);
@@ -260,8 +269,8 @@ const Edit_profile = ({ source, record = {} }) => {
                     src={imageUrl}
                     alt={uploadImg.image.name}
                     height="100px"
+                    onChange={() => setTemp("uploaded")}
                   />
-                  {upLoadImage()}
                 </Box>
               )
             )}
@@ -274,30 +283,24 @@ const Edit_profile = ({ source, record = {} }) => {
                 {toasterMsg}
               </Alert>
             </Snackbar>
+
+            <input
+              style={{ marginLeft: "60px" }}
+              type="file"
+              accept="image/*"
+              // style={{ display: "none" }}
+              id="contained-button-file"
+              onChange={uploadImgFun}
+              ref={imageRef}
+            />
             <Stack spacing={2} direction="row" m={4}>
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                id="contained-button-file"
-                onChange={(e) =>
-                  setuploadImg({ ...uploadImg, image: e.target.files[0] })
-                }
-              />
               <label htmlFor="contained-button-file">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component="span"
-                  onClick={() => setImage(false)}
-                >
-                  Upload ImageS
-                </Button>
+                {/* <input type="file" onChange={uploadImg}/> */}
               </label>
 
-              {/* <Button variant="text" onClick={upLoadImage}>
+              <Button variant="text" onClick={upLoadImage}>
                 upload Image
-              </Button> */}
+              </Button>
               <Button variant="contained" onClick={removeImage}>
                 Remove Image
               </Button>
@@ -312,7 +315,7 @@ const Edit_profile = ({ source, record = {} }) => {
                 {/* <label>Name</label> */}
                 <TextField
                   fullWidth
-                  name="userName"
+                  name="firstname"
                   value={userData.firstname}
                   onChange={onChangeHandler}
                   // onBlur={onBlurFun}
@@ -447,4 +450,4 @@ const Edit_profile = ({ source, record = {} }) => {
   );
 };
 
-export default Edit_profile;
+export default EditProfile;

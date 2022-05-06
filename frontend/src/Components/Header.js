@@ -66,22 +66,8 @@ const Header = () => {
         console.log(err);
       });
   }, []);
-  console.log(userData);
+  // console.log(userData);
   const [tempState, setTempState] = React.useState(true);
-  React.useEffect(() => {
-    axios
-      .get(`http://localhost:8080/users/user/${id}`, {
-        headers: {
-          authorization: Token,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  });
 
   const handleMenu = (event) => {
     console.log(event);
@@ -108,8 +94,8 @@ const Header = () => {
     confirm1: "",
     confirm2: "",
   });
-  console.log(currentPass);
-  console.log(password);
+  // console.log(currentPass);
+  // console.log(password);
 
   const confirmedFun = (e) => {
     setPassword({
@@ -151,7 +137,7 @@ const Header = () => {
     handleClose();
     Navigate("/login");
   };
-  console.log(currentPass);
+  // console.log(currentPass);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Modal
@@ -251,7 +237,7 @@ const Header = () => {
                 onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
-              // className={classes.avatar}
+                // className={classes.avatar}
               >
                 {userData.name?.charAt(0)}
               </Avatar>
