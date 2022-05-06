@@ -250,7 +250,13 @@ const Header = () => {
             >
               <AccountCircle />
             </IconButton> */}
-            <Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Avatar
                 sx={{
                   // height: "250px",
@@ -261,6 +267,7 @@ const Header = () => {
                   color: "black",
                   // border: "15px solid #AFE1AF",
                   // 097969
+                  marginRight: "10px",
                 }}
                 onClick={handleMenu}
                 alt="avatar"
@@ -269,6 +276,8 @@ const Header = () => {
               >
                 {userData.name?.charAt(0)}
               </Avatar>
+
+              {userData.name}
             </Box>
 
             <Menu
