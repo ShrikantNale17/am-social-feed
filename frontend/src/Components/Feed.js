@@ -56,6 +56,8 @@ const Feed = (props) => {
   const [open, setOpen] = useState(false);
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const CounterHandler = (count) => {
     console.log(count);
@@ -82,7 +84,7 @@ const Feed = (props) => {
 
   const getAllPosts = () => {
     axios
-      .get("http://localhost:8080/posts/allPosts?pageNo=1&size=", {
+      .get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
         headers: {
           authorization: Token,
         },
@@ -93,6 +95,7 @@ const Feed = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false);
       });
   };
 
@@ -151,17 +154,19 @@ const Feed = (props) => {
   const fetchMoreData = () => {
     setTimeout(() => {
       axios
-        .get("http://localhost:8080/posts/allPosts?pageNo=1&size=", {
+        .get(`http://localhost:8080/posts/allPosts?pageNo=${page + 1}&size=2`, {
           headers: {
             authorization: Token,
           },
         })
         .then((res) => {
           console.log(res);
-          SetAllPost(res.data.message);
+          SetAllPost([...allPost, ...res.data.message]);
+          setPage((prev) => prev + 1);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     }, 1000);
   };
@@ -206,13 +211,9 @@ const Feed = (props) => {
             dataLength={allPost?.length}
             next={fetchMoreData}
             hasMore={true}
-            // loader={
-            //   loading ? (
-            //     <h4>Loading...</h4>
-            //   ) : (
-            //     <h4 style={{ color: "Blue" }}>End Of The Posts....</h4>
-            //   )
-            // }
+            loader={
+              loading ? <h3>Loading ...</h3> : <h3>You react to last post</h3>
+            }
           >
             <Grid item md={12}>
               <Grid container spacing={3} rowSpacing={2}>
