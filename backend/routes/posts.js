@@ -133,7 +133,7 @@ router.get('/allPosts', auth, async (req, res) => {
         return res.json(response)
     }
     query.skip = size * (pageNo - 1)
-    query.limit = size || 5
+    query.limit = size
     // Find some documents
     Post.count({}, async (err, totalCount) => {
         if (err) {

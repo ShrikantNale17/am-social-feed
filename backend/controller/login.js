@@ -29,7 +29,7 @@ router.post('/', async (req, res, next) => {
                 if (result) {
                     const maxAge = 3 * 60 * 60;
                     const token = jwt.sign(
-                        { id: user._id, name: user.name },
+                        { id: user._id, name: user.firstname },
                         jwtSecret,
                         {
                             expiresIn: maxAge, // 3hrs in sec
@@ -106,5 +106,41 @@ router.post('/', async (req, res, next) => {
         res.status(500).json(err)
     } */
 })
+
+//Google Login
+router.post("/google-login", async (req, res) => {
+    console.log(req.body);
+    try {
+        const user = await User.findOne({ email: req.body.email });
+        // console.log(user);
+        if (user) {
+            // const tok = generateToken(user);
+            const maxAge = 3 * 60 * 60;
+            const tok = jwt.sign(
+                { id: user._id, name: user.firstname },
+                jwtSecret,
+                {
+                    expiresIn: maxAge, // 3hrs in sec
+                }
+            );
+            // res.setHeader("Authorization", token);
+            res.cookie("jwt", tok, {
+                httpOnly: true,
+                maxAge: maxAge * 1000, // 3hrs in ms
+            });
+            res.status(200).json({
+                user: user,
+                token: tok,
+                message: "login with google successfully",
+            });
+        } else {
+            // console.log("else error");
+            res.json({ status: false, error: "user not found" });
+        }
+    } catch (err) {
+        // console.log("error");
+        res.status(500).json(err);
+    }
+});
 
 module.exports = router

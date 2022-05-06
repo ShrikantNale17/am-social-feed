@@ -251,9 +251,9 @@ const Header = () => {
                 onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
-                // className={classes.avatar}
+              // className={classes.avatar}
               >
-                {userData.name.charAt(0)}
+                {userData.name?.charAt(0)}
               </Avatar>
             </Box>
 

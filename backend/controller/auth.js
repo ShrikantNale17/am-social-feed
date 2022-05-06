@@ -6,11 +6,13 @@ const auth = (req, res, next) => {
     const authHeader = req.headers.authorization || req.cookies.jwt
     const error = new Error()
     error.status = 403
+    console.log(authHeader);
     if (authHeader) {
         const token = authHeader
         if (token) {
             try {
                 const user = jwt.verify(token, SECRETE_KEY)
+                console.log(user);
                 req.user = user
                 return next()
             } catch (e) {

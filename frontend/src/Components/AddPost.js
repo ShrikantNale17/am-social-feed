@@ -76,12 +76,12 @@ const AddPost = (props) => {
   //   URL.revokeObjectURL(output.src); // free memory
   // };
 
-  const PostHandler = () => {
+  const PostHandler = async () => {
     formData.append("image", addPost.image);
     formData.append("caption", addPost.caption);
     formData.append("userID", addPost.userID);
     console.log(formData.get("image"));
-    axios
+    await axios
       .post("http://localhost:8080/posts/addPost", formData, {
         headers: {
           authorization: Token,

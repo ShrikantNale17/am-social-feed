@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
+import GoogleLogin from 'react-google-login';
+
 import "./CSS/LoginC.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -38,6 +40,7 @@ const LoginPage = (props) => {
       setTempState(true);
     }
   };
+
 
   const onBlurHandlerPass = () => {
     if (userData.password) {
@@ -91,6 +94,25 @@ const LoginPage = (props) => {
           setToasterMsg("Login Not Successful Try Again...");
           setToasterClr("error");
           setUserData({ email: "", password: "" });
+        }
+      });
+  };
+
+  const responseGoogle = (res) => {
+    // console.log(res.Lu.Bv);
+    axios
+      .post("http://localhost:8080/login/google-login", { email: res.Lu.Bv })
+      .then((res) => {
+        console.log(res)
+        if (res.data) {
+          console.log(res);
+          localStorage.setItem("Token", res.data.token);
+          localStorage.setItem("id", res.data.user._id);
+          // props.setToken(res.data.token);
+          // props?.handleClick("Login Successful !");
+          setTimeout(() => Navigate("/"), 1000);
+        } else {
+          alert(res)
         }
       });
   };
@@ -180,7 +202,7 @@ const LoginPage = (props) => {
             <p>Sign up for AM SOCIAL FEED</p>
             <Link to="/sign-up">Click here</Link>
           </div>
-          <label
+          {/* <label
             style={{
               display: "flex",
               justifyContent: "center",
@@ -190,7 +212,14 @@ const LoginPage = (props) => {
             onClick={() => Navigate("/sign-up")}
           >
             Login with Google
-          </label>
+          </label> */}
+          <GoogleLogin
+            clientId="258096711456-f6igfuafn2n9c5s14ch12tos4vag8jmj.apps.googleusercontent.com"
+            // clientId="1069481089822-bfacd3vd7f547gss8cn0o9b49v32l76q.apps.googleusercontent.com"
+
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+          />
           <Button
             sx={{ bgcolor: "#097969", padding: "20px", minWidth: "30%" }}
             variant="contained"
