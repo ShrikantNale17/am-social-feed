@@ -26,6 +26,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
+import Skeleton from "@mui/material/Skeleton";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />; //returns something
@@ -154,7 +155,7 @@ const Feed = (props) => {
   const fetchMoreData = () => {
     setTimeout(() => {
       axios
-        .get(`http://localhost:8080/posts/allPosts?pageNo=${page + 1}&size=2`, {
+        .get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
           headers: {
             authorization: Token,
           },
@@ -216,7 +217,15 @@ const Feed = (props) => {
             next={fetchMoreData}
             hasMore={true}
             loader={
-              loading ? <h3>Loading ...</h3> : <h3>You react to last post</h3>
+              <Box sx={{ minWidth: 500, maxWidth: 500, margin: "auto" }}>
+                <Stack spacing={1}>
+                  <Skeleton variant="text" />
+                  <Skeleton variant="square" width={500} height={60} />
+                  {/* <Skeleton variant="rectangular" width={100} height={100} /> */}
+                  <Skeleton variant="rectangular" width={500} height={400} />
+                  <Skeleton variant="square" width={500} height={60} />
+                </Stack>
+              </Box>
             }
           >
             <Grid item md={12}>
