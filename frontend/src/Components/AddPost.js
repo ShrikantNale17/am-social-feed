@@ -22,7 +22,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const AddPost = (props) => {
   const Navigate = useNavigate();
-  var { CounterHandler, getAllPosts } = props;
+  var { CounterHandler, getAllPosts, setPage } = props;
   const Token = localStorage.getItem("Token");
   const id = localStorage.getItem("id");
   const [count, setCount] = React.useState(1);
@@ -110,6 +110,7 @@ const AddPost = (props) => {
         setToasterMsg("Post Not Added Try Again...");
       });
     setAddPost({ userID: id, image: "", caption: "" });
+    setPage(1);
     getAllPosts();
   };
   console.log(addPost);

@@ -204,7 +204,11 @@ const Feed = (props) => {
             md={12}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            <AddPost tokenApp={tokenApp} getAllPosts={getAllPosts} />
+            <AddPost
+              tokenApp={tokenApp}
+              getAllPosts={getAllPosts}
+              setPage={setPage}
+            />
           </Grid>
 
           <InfiniteScroll
