@@ -134,33 +134,38 @@ const Feed = (props) => {
     // SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, likes: post.likes.includes(uid) ? post.likes.filter(userID => userID !== uid) : [...post.likes, uid] } : post))
   };
   const handleComment = async (postID) => {
-    SetAllPost((prevPosts) =>
-      prevPosts.map((post) =>
-        post._id === postID
-          ? {
-              ...post,
-              comments: [...post.comments, { userID: uid, comment: comment }],
-            }
-          : post
-      )
-    );
-
-    await axios
-      .put(
-        `http://localhost:8080/posts/comment/${postID}`,
-        { comment: comment },
-        {
-          headers: {
-            authorization: Token,
-          },
-        }
-      )
-      .then((res) => console.log(res));
-    setComment("");
-    // getAllPosts();
-    setOpen(true);
-    setToasterClr("success");
-    setToasterMsg("comment Added Successfully...");
+    if (comment) {
+      SetAllPost((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postID
+            ? {
+                ...post,
+                comments: [...post.comments, { userID: uid, comment: comment }],
+              }
+            : post
+        )
+      );
+      await axios
+        .put(
+          `http://localhost:8080/posts/comment/${postID}`,
+          { comment: comment },
+          {
+            headers: {
+              authorization: Token,
+            },
+          }
+        )
+        .then((res) => console.log(res));
+      setComment("");
+      // getAllPosts();
+      setOpen(true);
+      setToasterClr("success");
+      setToasterMsg("comment Added Successfully...");
+    } else {
+      setOpen(true);
+      setToasterClr("error");
+      setToasterMsg("comment should not be empty...");
+    }
   };
 
   const getAllUsers = async (id) => {

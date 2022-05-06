@@ -49,7 +49,8 @@ const Header = () => {
     image: "",
     name: "",
   });
-
+  const [toasterClr, setToasterClr] = React.useState("");
+  const [toasterMsg, setToasterMsg] = React.useState("");
   //to get user image
 
   React.useEffect(() => {
@@ -81,6 +82,7 @@ const Header = () => {
   //Modal
 
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
   const handleOpenM = () => setOpen(true);
   const handleCloseM = () => setOpen(false);
 
@@ -119,16 +121,24 @@ const Header = () => {
         .then((res) => {
           console.log(res);
           setOpen(false);
+          setOpen1(true);
+          setToasterMsg("Successfully Password Updated...");
+          setToasterClr("success");
         })
         .catch((err) => {
           console.log(err);
-          alert("current  password is wrong");
+          // alert("current  password is wrong");
           setcurrentPass((pre) => ({ ...pre, currentPassword: "" }));
           setPassword({ confirm1: "", confirm2: "" });
+          setOpen1(true);
+          setToasterMsg("Password Not Updated...");
+          setToasterClr("error");
         });
     } else {
       setPassword({ confirm1: "", confirm2: "" });
-      alert("Enter Correct Password Fieldsss///");
+      // alert("Enter Correct Password Fieldsss///");
+      setToasterMsg("Enter Correct Password Fieldsss///");
+      setToasterClr("error");
     }
   };
 
@@ -138,6 +148,15 @@ const Header = () => {
     Navigate("/login");
   };
   // console.log(currentPass);
+
+  //toaster
+  const handleCloseToast = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen1(false);
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Modal
@@ -195,6 +214,15 @@ const Header = () => {
           </div>
         </Box>
       </Modal>
+      <Snackbar open={open1} autoHideDuration={4000} onClose={handleCloseToast}>
+        <Alert
+          onClose={handleCloseToast}
+          severity={toasterClr}
+          sx={{ width: "100%" }}
+        >
+          {toasterMsg}
+        </Alert>
+      </Snackbar>
 
       <AppBar sx={{ bgcolor: "#097969" }} position="fixed">
         <Toolbar>
