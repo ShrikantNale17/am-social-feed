@@ -144,6 +144,7 @@ const Feed = (props) => {
           : post
       )
     );
+
     await axios
       .put(
         `http://localhost:8080/posts/comment/${postID}`,
@@ -368,9 +369,10 @@ const Feed = (props) => {
                                     style={{ minWidth: 370, margin: "10px" }}
                                     value={comment}
                                     onChange={(e) => {
-                                      if (e.target.value === " ")
+                                      if (e.target.value === " ") {
                                         e.target.value = "";
-                                      setComment(e.target.value);
+                                        setComment(e.target.value);
+                                      }
                                     }}
                                     fullWidth
                                   />
