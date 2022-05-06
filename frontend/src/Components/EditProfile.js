@@ -207,6 +207,7 @@ const EditProfile = () => {
         formData.delete("image");
         formData.delete("userID");
         setTemp("removed");
+        imageRef.current.value = null;
       })
       .catch((err) => {
         console.log(err);
