@@ -107,7 +107,18 @@ const Feed = (props) => {
 
   const handleLike = async (postID) => {
     console.log(uid);
-    SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, likes: post.likes.includes(uid) ? post.likes.filter(userID => userID !== uid) : [...post.likes, uid] } : post))
+    SetAllPost((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === postID
+          ? {
+              ...post,
+              likes: post.likes.includes(uid)
+                ? post.likes.filter((userID) => userID !== uid)
+                : [...post.likes, uid],
+            }
+          : post
+      )
+    );
     await axios
       .put(
         `http://localhost:8080/posts/like/${postID}`,
@@ -123,7 +134,16 @@ const Feed = (props) => {
     // SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, likes: post.likes.includes(uid) ? post.likes.filter(userID => userID !== uid) : [...post.likes, uid] } : post))
   };
   const handleComment = async (postID) => {
-    SetAllPost(prevPosts => prevPosts.map(post => post._id === postID ? { ...post, comments: [...post.comments, { userID: uid, comment: comment }] } : post))
+    SetAllPost((prevPosts) =>
+      prevPosts.map((post) =>
+        post._id === postID
+          ? {
+              ...post,
+              comments: [...post.comments, { userID: uid, comment: comment }],
+            }
+          : post
+      )
+    );
     await axios
       .put(
         `http://localhost:8080/posts/comment/${postID}`,
@@ -264,10 +284,11 @@ const Feed = (props) => {
                                 sx={{ bgcolor: red[500] }}
                                 aria-label="recipe"
                                 // src={each.user.image}
-                                src={`http://localhost:8080/${users.filter(
-                                  (user) => each.userID === user._id
-                                )[0].image
-                                  }`}
+                                src={`http://localhost:8080/${
+                                  users.filter(
+                                    (user) => each.userID === user._id
+                                  )[0].image
+                                }`}
                               >
                                 {/* {each.user?.firstname.charAt(0)} */}
                               </Avatar>
@@ -346,7 +367,11 @@ const Feed = (props) => {
                                     // placeholder="Add Comment"
                                     style={{ minWidth: 370, margin: "10px" }}
                                     value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
+                                    onChange={(e) => {
+                                      if (e.target.value === " ")
+                                        e.target.value = "";
+                                      setComment(e.target.value);
+                                    }}
                                     fullWidth
                                   />
                                 </div>
@@ -398,11 +423,12 @@ const Feed = (props) => {
                                             fontSize: "15px",
                                           }}
                                           aria-label="recipe"
-                                          src={`http://localhost:8080/${users.filter(
-                                            (user) =>
-                                              each2.userID === user._id
-                                          )[0]?.image
-                                            }`}
+                                          src={`http://localhost:8080/${
+                                            users.filter(
+                                              (user) =>
+                                                each2.userID === user._id
+                                            )[0]?.image
+                                          }`}
                                         >
                                           {/* {each2.user.charAt(0)} */}
                                         </Avatar>
