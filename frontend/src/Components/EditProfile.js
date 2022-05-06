@@ -446,6 +446,13 @@ const EditProfile = () => {
         >
           Save
         </Button>
+        <Button
+          // style={{ display: "flex", justifyContent: "center" }}
+          variant="error"
+          onClick={() => Navigate("/")}
+        >
+          Cancel
+        </Button>
       </Box>
     </Box>
   );
