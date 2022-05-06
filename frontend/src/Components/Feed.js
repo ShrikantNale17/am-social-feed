@@ -240,243 +240,253 @@ const Feed = (props) => {
               setPage={setPage}
             />
           </Grid>
-
-          <InfiniteScroll
-            dataLength={allPost?.length}
-            next={fetchMoreData}
-            hasMore={true}
-            loader={
-              <Box sx={{ minWidth: 500, maxWidth: 500, margin: "auto" }}>
-                <Stack spacing={1}>
-                  <Skeleton variant="text" />
-                  <Skeleton variant="square" width={500} height={60} />
-                  {/* <Skeleton variant="rectangular" width={100} height={100} /> */}
-                  <Skeleton variant="rectangular" width={500} height={400} />
-                  <Skeleton variant="square" width={500} height={60} />
-                </Stack>
-              </Box>
-            }
-          >
-            <Grid item md={12}>
-              <Grid container spacing={3} rowSpacing={2}>
-                {allPost?.map((each, i) => {
-                  console.log(
-                    users.filter((user) => each.userID === user._id)[0].image
-                  );
-                  return (
-                    <>
-                      {console.log(each)}
-                      <Grid
-                        item
-                        md={12}
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          margin: "30px",
-                        }}
-                      >
-                        <Card
-                          sx={{
-                            minWidth: 500,
-                            maxWidth: 500,
-                            // padding: "15px",
-                            // border: "1px solid black",
-                            marginRight: "20px",
+          <Box style={{ margin: "auto" }}>
+            <InfiniteScroll
+              dataLength={allPost?.length}
+              next={fetchMoreData}
+              hasMore={true}
+              loader={
+                <Box sx={{ minWidth: 500, maxWidth: 500, m: "auto" }}>
+                  <Stack spacing={1}>
+                    <Skeleton variant="text" />
+                    <Skeleton variant="square" width={500} height={60} />
+                    {/* <Skeleton variant="rectangular" width={100} height={100} /> */}
+                    <Skeleton variant="rectangular" width={500} height={400} />
+                    <Skeleton variant="square" width={500} height={60} />
+                  </Stack>
+                </Box>
+              }
+            >
+              <Box>
+                <Box>
+                  {allPost?.map((each, i) => {
+                    console.log(
+                      users.filter((user) => each.userID === user._id)[0].image
+                    );
+                    return (
+                      <>
+                        {console.log(each)}
+                        <Grid
+                          item
+                          md={12}
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            margin: "30px",
                           }}
                         >
-                          <CardHeader
-                            avatar={
-                              <Avatar
-                                sx={{ bgcolor: red[500] }}
-                                aria-label="recipe"
-                                // src={each.user.image}
-                                src={`http://localhost:8080/${
-                                  users.filter(
-                                    (user) => each.userID === user._id
-                                  )[0].image
-                                }`}
-                              >
-                                {/* {each.user?.firstname.charAt(0)} */}
-                              </Avatar>
-                            }
-                            titleTypographyProps={{ variant: "h5" }}
-                            title={
-                              users.filter(
-                                (user) => each.userID === user._id
-                              )[0].firstname
-                            }
-                            action={
-                              <IconButton aria-label="settings">
-                                <MoreVertIcon />
-                              </IconButton>
-                            }
-                          />
-                          {console.log(each.image)}
-                          <CardMedia
-                            component="img"
-                            height="294"
-                            image={`http://localhost:8080/${each.image}`}
-                            alt="Paella dish"
-                          />
-                          <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                              {each.caption}
-                            </Typography>
-                          </CardContent>
-                          <CardActions
-                            disableSpacing
-                            sx={{ padding: "0px 10px" }}
+                          <Card
+                            sx={{
+                              minWidth: 500,
+                              maxWidth: 500,
+                              // padding: "15px",
+                              // border: "1px solid black",
+                              marginRight: "20px",
+                            }}
                           >
-                            {each.likes.includes(uid) ? (
-                              <IconButton aria-label="add to favorites">
-                                <FavoriteIcon
-                                  style={{ color: "red" }}
-                                  onClick={() => handleLike(each._id)}
-                                />
-                              </IconButton>
-                            ) : (
-                              <IconButton aria-label="add to favorites">
-                                <FavoriteIcon
-                                  onClick={() => handleLike(each._id)}
-                                />
-                              </IconButton>
-                            )}
-                            {each.likes.length ? each.likes.length : 0} Likes
-                            <ExpandMore
-                              expand={expanded}
-                              onClick={() => handleExpandClick(i)}
-                              aria-expanded={expanded === i}
-                              aria-label="show more"
+                            <CardHeader
+                              avatar={
+                                <Avatar
+                                  sx={{ bgcolor: red[500] }}
+                                  aria-label="recipe"
+                                  // src={each.user.image}
+                                  src={`http://localhost:8080/${
+                                    users.filter(
+                                      (user) => each.userID === user._id
+                                    )[0].image
+                                  }`}
+                                >
+                                  {/* {each.user?.firstname.charAt(0)} */}
+                                </Avatar>
+                              }
+                              titleTypographyProps={{ variant: "h5" }}
+                              title={
+                                users.filter(
+                                  (user) => each.userID === user._id
+                                )[0].firstname
+                              }
+                              action={
+                                <IconButton aria-label="settings">
+                                  <MoreVertIcon />
+                                </IconButton>
+                              }
+                            />
+                            {console.log(each.image)}
+                            <CardMedia
+                              component="img"
+                              height="294"
+                              image={`http://localhost:8080/${each.image}`}
+                              alt="Paella dish"
+                            />
+                            <CardContent>
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
+                                {each.caption}
+                              </Typography>
+                            </CardContent>
+                            <CardActions
+                              disableSpacing
+                              sx={{ padding: "0px 10px" }}
                             >
-                              <ExpandMoreIcon />
-                            </ExpandMore>
-                            <h4 style={{ textAlign: "left" }}>{each.comments.length + ' '} Comments</h4>
-                          </CardActions>
-                          <Collapse
-                            in={expanded === i}
-                            timeout="auto"
-                            unmountOnExit
-                          >
-                            <CardContent sx={{ padding: "0px 20px" }}>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "row",
-                                  margin: "0px",
-                                }}
-                              >
-                                <div>
-                                  <TextField
-                                    id="standard-basic"
-                                    label="Add Comment"
-                                    variant="standard"
-                                    // placeholder="Add Comment"
-                                    style={{ minWidth: 370, margin: "10px" }}
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                    fullWidth
+                              {each.likes.includes(uid) ? (
+                                <IconButton aria-label="add to favorites">
+                                  <FavoriteIcon
+                                    style={{ color: "red" }}
+                                    onClick={() => handleLike(each._id)}
                                   />
-                                </div>
-                                <div style={{ margin: "auto" }}>
-                                  <Button
-                                    size="small"
-                                    sx={{
-                                      color: "#097969",
-                                      fontWeight: "bolder",
-                                    }}
-                                    onClick={() => handleComment(each._id)}
-                                  >
-                                    POST
-                                  </Button>
-                                  <Snackbar
-                                    open={open}
-                                    autoHideDuration={4000}
-                                    onClose={handleClose}
-                                  >
-                                    <Alert
-                                      onClose={handleClose}
-                                      severity={toasterClr}
-                                      sx={{ width: "100%" }}
-                                    >
-                                      {toasterMsg}
-                                    </Alert>
-                                  </Snackbar>
-                                </div>
-                              </div>
-                              <h4 style={{ padding: "0px" }}>All Comments:-</h4>
-                              {each.comments?.map((each2) => {
-                                return (
-                                  <>
-                                    {console.log(each2)}
-                                    <div
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        gap: "5px",
+                                </IconButton>
+                              ) : (
+                                <IconButton aria-label="add to favorites">
+                                  <FavoriteIcon
+                                    onClick={() => handleLike(each._id)}
+                                  />
+                                </IconButton>
+                              )}
+                              {each.likes.length ? each.likes.length : 0} Likes
+                              <ExpandMore
+                                expand={expanded}
+                                onClick={() => handleExpandClick(i)}
+                                aria-expanded={expanded === i}
+                                aria-label="show more"
+                              >
+                                <ExpandMoreIcon />
+                              </ExpandMore>
+                              <h4 style={{ textAlign: "left" }}>
+                                {each.comments.length + " "} Comments
+                              </h4>
+                            </CardActions>
+                            <Collapse
+                              in={expanded === i}
+                              timeout="auto"
+                              unmountOnExit
+                            >
+                              <CardContent sx={{ padding: "0px 20px" }}>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    margin: "0px",
+                                  }}
+                                >
+                                  <div>
+                                    <TextField
+                                      id="standard-basic"
+                                      label="Add Comment"
+                                      variant="standard"
+                                      // placeholder="Add Comment"
+                                      style={{ minWidth: 370, margin: "10px" }}
+                                      value={comment}
+                                      onChange={(e) =>
+                                        setComment(e.target.value)
+                                      }
+                                      fullWidth
+                                    />
+                                  </div>
+                                  <div style={{ margin: "auto" }}>
+                                    <Button
+                                      size="small"
+                                      sx={{
+                                        color: "#097969",
+                                        fontWeight: "bolder",
                                       }}
+                                      onClick={() => handleComment(each._id)}
                                     >
-                                      <div>
-                                        <Avatar
-                                          sx={{
-                                            bgcolor: red[500],
-                                            height: "25px",
-                                            width: "25px",
-                                            fontSize: "15px",
-                                          }}
-                                          aria-label="recipe"
-                                          src={`http://localhost:8080/${
-                                            users.filter(
-                                              (user) =>
-                                                each2.userID === user._id
-                                            )[0]?.image
-                                          }`}
-                                        >
-                                          {/* {each2.user.charAt(0)} */}
-                                        </Avatar>
-                                      </div>
-                                      <div>
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <h4 style={{ margin: "10px" }}>
-                                            {users.filter(
-                                              (user) =>
-                                                each2.userID === user._id
-                                            )[0]?.firstname +
-                                              "" +
+                                      POST
+                                    </Button>
+                                    <Snackbar
+                                      open={open}
+                                      autoHideDuration={4000}
+                                      onClose={handleClose}
+                                    >
+                                      <Alert
+                                        onClose={handleClose}
+                                        severity={toasterClr}
+                                        sx={{ width: "100%" }}
+                                      >
+                                        {toasterMsg}
+                                      </Alert>
+                                    </Snackbar>
+                                  </div>
+                                </div>
+                                <h4 style={{ padding: "0px" }}>
+                                  All Comments:-
+                                </h4>
+                                {each.comments?.map((each2) => {
+                                  return (
+                                    <>
+                                      {console.log(each2)}
+                                      <div
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                          alignItems: "center",
+                                          gap: "5px",
+                                        }}
+                                      >
+                                        <div>
+                                          <Avatar
+                                            sx={{
+                                              bgcolor: red[500],
+                                              height: "25px",
+                                              width: "25px",
+                                              fontSize: "15px",
+                                            }}
+                                            aria-label="recipe"
+                                            src={`http://localhost:8080/${
                                               users.filter(
                                                 (user) =>
                                                   each2.userID === user._id
-                                              )[0]?.lastname}{" "}
-                                            :{" "}
-                                          </h4>
+                                              )[0]?.image
+                                            }`}
+                                          >
+                                            {/* {each2.user.charAt(0)} */}
+                                          </Avatar>
+                                        </div>
+                                        <div>
+                                          <div
+                                            style={{
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              alignItems: "center",
+                                            }}
+                                          >
+                                            <h4 style={{ margin: "10px" }}>
+                                              {users.filter(
+                                                (user) =>
+                                                  each2.userID === user._id
+                                              )[0]?.firstname +
+                                                "" +
+                                                users.filter(
+                                                  (user) =>
+                                                    each2.userID === user._id
+                                                )[0]?.lastname}{" "}
+                                              :{" "}
+                                            </h4>
 
-                                          <div>
-                                            <p style={{ margin: "10px" }}>
-                                              {each2.comment}
-                                            </p>
+                                            <div>
+                                              <p style={{ margin: "10px" }}>
+                                                {each2.comment}
+                                              </p>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </>
-                                );
-                              })}
-                            </CardContent>
-                          </Collapse>
-                        </Card>
-                      </Grid>
-                    </>
-                  );
-                })}
-              </Grid>
-            </Grid>
-          </InfiniteScroll>
+                                    </>
+                                  );
+                                })}
+                              </CardContent>
+                            </Collapse>
+                          </Card>
+                        </Grid>
+                      </>
+                    );
+                  })}
+                </Box>
+              </Box>
+            </InfiniteScroll>
+          </Box>
         </Grid>
       </Box>
     </div>
