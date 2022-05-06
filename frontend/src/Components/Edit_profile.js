@@ -56,7 +56,8 @@ const Edit_profile = ({ source, record = {} }) => {
     image: "",
     userID: id,
   });
-  const [open, setOpen] = React.useState(false);
+  const [counter, setCounter] = useState(1);
+  const [open, setOpen] = useState(false);
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
 
@@ -94,7 +95,7 @@ const Edit_profile = ({ source, record = {} }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [counter]);
   console.log(userD);
   console.log(oldProfilePic);
 
@@ -196,6 +197,7 @@ const Edit_profile = ({ source, record = {} }) => {
         setOpen(true);
         setToasterClr("success");
         setToasterMsg("Profile Picture Removed Successfully");
+        setCounter(counter + 1);
       })
       .catch((err) => {
         console.log(err);
