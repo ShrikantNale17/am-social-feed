@@ -19,6 +19,8 @@ import { useNavigate } from "react-router-dom";
 import { upload } from "@testing-library/user-event/dist/upload";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import MuiPhoneNumber from "material-ui-phone-number";
+import { set } from "date-fns";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -43,7 +45,7 @@ const Edit_profile = ({ source, record = {} }) => {
     firstname: "",
     lastname: "",
     email: "",
-    mobile: 0,
+    mobile: "",
     DOB: "",
     bio: "",
     gender: "",
@@ -145,7 +147,10 @@ const Edit_profile = ({ source, record = {} }) => {
   };
 
   //to get image
-
+  const phoneHandleChange = (value) => {
+    setUserData({ ...userData, mobile: value });
+  };
+  console.log(userData);
   //upload image
   const upLoadImage = () => {
     console.log(uploadImg);
@@ -352,7 +357,7 @@ const Edit_profile = ({ source, record = {} }) => {
             <Grid item md={5}>
               <FormControl fullWidth error variant="standard">
                 {/* <label>Mobile</label> */}
-                <TextField
+                {/* <TextField
                   name="mobile"
                   value={userData.mobile}
                   onChange={onChangeHandler}
@@ -366,6 +371,12 @@ const Edit_profile = ({ source, record = {} }) => {
                   label="Mobile"
                   id="outlined-basic"
                   variant="outlined"
+                /> */}
+                <MuiPhoneNumber
+                  defaultCountry={"in"}
+                  name="mobile"
+                  value={userData.mobile}
+                  onChange={phoneHandleChange}
                 />
               </FormControl>
             </Grid>
