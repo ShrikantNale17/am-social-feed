@@ -61,6 +61,7 @@ const Header = () => {
         },
       })
       .then((res) => {
+        console.log(res);
         setUserData({ image: res.data.image, name: res.data.firstname });
       })
       .catch((err) => {
@@ -157,6 +158,42 @@ const Header = () => {
     setOpen1(false);
   };
 
+  //ONBLUR
+  const [blurState, setBlurState] = React.useState(false);
+  const [blurState1, setBlurState1] = React.useState(false);
+  const [blurState2, setBlurState2] = React.useState(false);
+  const passwordregex =
+    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+  const onBlur = () => {
+    if (
+      currentPass.currentPassword &&
+      passwordregex.test(currentPass.currentPassword)
+    ) {
+      setBlurState(false);
+    } else {
+      setBlurState(true);
+    }
+  };
+
+  const onBlur1 = () => {
+    if (password.confirm1 && passwordregex.test(password.confirm1)) {
+      setBlurState1(false);
+    } else {
+      setBlurState1(true);
+    }
+  };
+
+  const onBlur2 = () => {
+    if (
+      password.confirm2 &&
+      passwordregex.test(password.confirm2) &&
+      password.confirm1 === password.confirm2
+    ) {
+      setBlurState2(false);
+    } else {
+      setBlurState2(true);
+    }
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Modal
@@ -177,6 +214,9 @@ const Header = () => {
               <TextField
                 value={currentPass.currentPassword}
                 type="password"
+                onBlur={onBlur}
+                error={blurState ? true : false}
+                helperText={blurState ? "Enter Correct Password ..." : ""}
                 onChange={(e) => {
                   setcurrentPass({
                     ...currentPass,
@@ -190,20 +230,28 @@ const Header = () => {
               <TextField
                 value={password.confirm1}
                 type="password"
+                onBlur={onBlur1}
+                error={blurState1 ? true : undefined}
                 onChange={(e) => {
                   setPassword({
                     ...password,
                     confirm1: e.target.value,
                   });
                 }}
+                helperText={blurState1 ? "password not too strong ..." : ""}
               ></TextField>
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Confirmed Password
               </Typography>
               <TextField
                 type="password"
+                onBlur={onBlur2}
                 value={password.confirm2}
                 onChange={confirmedFun}
+                error={blurState2 ? true : undefined}
+                helperText={
+                  blurState2 ? "password not matching with eachother ..." : ""
+                }
               ></TextField>
             </div>
             <div style={{ marginTop: "20px" }}>
