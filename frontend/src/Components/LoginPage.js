@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import GoogleLogin from 'react-google-login';
-
+import GoogleLogin from "react-google-login";
+import whatsAppBack from "./Images/whatsappBack.jpg";
 import "./CSS/LoginC.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,7 +40,6 @@ const LoginPage = (props) => {
       setTempState(true);
     }
   };
-
 
   const onBlurHandlerPass = () => {
     if (userData.password) {
@@ -103,7 +102,7 @@ const LoginPage = (props) => {
     axios
       .post("http://localhost:8080/login/google-login", { email: res.Lu.Bv })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.data) {
           console.log(res);
           localStorage.setItem("Token", res.data.token);
@@ -116,7 +115,7 @@ const LoginPage = (props) => {
 
           setTimeout(() => Navigate("/"), 1000);
         } else {
-          alert(res)
+          alert(res);
         }
       })
       .catch((err) => {
@@ -125,7 +124,6 @@ const LoginPage = (props) => {
         setToasterMsg("Login Not Successful Try Again...");
         setToasterClr("error");
         // setUserData({ email: "", password: "" });
-
       });
   };
 
@@ -136,12 +134,17 @@ const LoginPage = (props) => {
         // backgroundColor="#AFE1AF"
         margin="0"
         // padding="auto"
+        // sx={{ backgroundImage: `url(${whatsAppBack})` }}
         display="flex"
         justifyContent="center"
       >
         <Box
           sx={{
-            width: "80%",
+            // backgroundImage: `url(${whatsAppBack})`,
+            // opacity: "0.2",
+            // filter: "blur(8px)",
+            // -webkit-filter: "blur(8px)",
+            width: "50%",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
@@ -168,7 +171,7 @@ const LoginPage = (props) => {
             Login Form
           </Typography>
           <Grid container rowSpacing={3} spacing={2}>
-            <Grid item md={12}>
+            <Grid item md={12} paddingRight={4}>
               {/* <label>Email</label> */}
               <TextField
                 onBlur={onBlurHandlerEmail}
@@ -185,7 +188,7 @@ const LoginPage = (props) => {
                 helperText={tempState ? " Valid Email Required" : ""}
               />
             </Grid>
-            <Grid item md={12}>
+            <Grid item md={12} p={4}>
               {/* <label>Password</label> */}
               <TextField
                 onBlur={onBlurHandlerPass}
@@ -208,7 +211,7 @@ const LoginPage = (props) => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              gap: "5px",
+              margin: "0px", // gap: "3px",
             }}
           >
             <p>Sign up for AM SOCIAL FEED</p>

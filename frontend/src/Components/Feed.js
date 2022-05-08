@@ -282,6 +282,9 @@ const Feed = (props) => {
                               // padding: "15px",
                               // border: "1px solid black",
                               marginRight: "20px",
+
+                              boxShadow:
+                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px 2.8px 2.2px rgba(0, 0, 0, 0.034)",
                             }}
                           >
                             <CardHeader

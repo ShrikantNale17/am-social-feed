@@ -148,7 +148,7 @@ const SignUP = () => {
     >
       <Box
         sx={{
-          width: "80%",
+          width: "50%",
           //   margin: "auto",
           display: "flex",
           flexDirection: "column",
