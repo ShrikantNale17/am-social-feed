@@ -349,7 +349,7 @@ const Feed = (props) => {
                               )}
                               {each.likes.length ? each.likes.length : 0} Likes
                               <ExpandMore
-                                expand={expanded}
+                                expand={expanded === i ? 0 : expanded}
                                 onClick={() => handleExpandClick(i)}
                                 aria-expanded={expanded === i}
                                 aria-label="show more"
