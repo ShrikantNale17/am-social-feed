@@ -244,7 +244,7 @@ const EditProfile = () => {
     >
       <Header counter1={counter1} />
 
-      <Grid container m={4}>
+      <Grid container p={4}>
         <Grid minHeight="60%" item md={3}>
           <Box>
             <label>Edit Profile Picture ...</label>
@@ -263,7 +263,7 @@ const EditProfile = () => {
                   }}
                   alt="avatar"
                   src={`http://localhost:8080/${oldProfilePic}`}
-                  // className={classes.avatar}
+                // className={classes.avatar}
                 >
                   {userData.firstname.charAt(0)}
                 </Avatar>
