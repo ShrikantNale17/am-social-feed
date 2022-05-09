@@ -40,7 +40,8 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const Header = () => {
+const Header = (props) => {
+  const { counter1 } = props;
   const Token = localStorage.getItem("Token");
   const id = localStorage.getItem("id");
   const Navigate = useNavigate();
@@ -68,7 +69,7 @@ const Header = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [counter1]);
   // console.log(userData);
   const [tempState, setTempState] = React.useState(true);
 
