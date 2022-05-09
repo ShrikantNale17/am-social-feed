@@ -234,20 +234,21 @@ const EditProfile = () => {
 
   return (
     <Box
-      style={{
-        height: "100vh",
+      sx={{
+        minHeight: '100vh',
+        height: "100%",
         backgroundImage: `url(${whatsAppBack})`,
-        borderTop: "10px solid #AFE1AF",
+        // borderTop: "10px solid #AFE1AF",
         borderLeft: "20px solid #AFE1AF",
         borderRight: "20px solid #AFE1AF",
       }}
     >
       <Header counter1={counter1} />
 
-      <Grid container p={4}>
-        <Grid minHeight="60%" item md={3}>
+      <Grid container p={5}>
+        <Grid minHeight="60%" item sm={3}>
           <Box>
-            <label>Edit Profile Picture ...</label>
+            {/* <label>Edit Profile Picture ...</label> */}
             {image ? (
               <Box>
                 <Avatar
@@ -461,7 +462,7 @@ const EditProfile = () => {
           Cancel
         </Button>
       </Box>
-      <Box textAlign="center" sx={{ margin: "20px" }}>
+      <Box textAlign="center" sx={{ margin: '20px' }}>
         <Button
           variant="error"
           onClick={() => {

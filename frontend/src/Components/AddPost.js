@@ -134,7 +134,7 @@ const AddPost = (props) => {
         maxWidth: 345,
         padding: "15px",
         border: "1px solid black",
-        marginRight: "20px",
+        // marginRight: "20px",
         backgroundImage: `url(${lightWhatsImg})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
