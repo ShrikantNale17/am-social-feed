@@ -311,7 +311,9 @@ const Header = (props) => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                cursor: 'pointer'
               }}
+              onClick={handleMenu}
             >
               <Avatar
                 sx={{
@@ -325,7 +327,7 @@ const Header = (props) => {
                   // 097969
                   marginRight: "10px",
                 }}
-                onClick={handleMenu}
+                // onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
               // className={classes.avatar}
