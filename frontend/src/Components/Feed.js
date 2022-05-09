@@ -89,6 +89,7 @@ const Feed = (props) => {
     axios
       .get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
         headers: {
+       
           authorization: Token,
         },
       })
