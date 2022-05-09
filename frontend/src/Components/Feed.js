@@ -111,11 +111,11 @@ const Feed = (props) => {
       prevPosts.map((post) =>
         post._id === postID
           ? {
-              ...post,
-              likes: post.likes.includes(uid)
-                ? post.likes.filter((userID) => userID !== uid)
-                : [...post.likes, uid],
-            }
+            ...post,
+            likes: post.likes.includes(uid)
+              ? post.likes.filter((userID) => userID !== uid)
+              : [...post.likes, uid],
+          }
           : post
       )
     );
@@ -139,9 +139,9 @@ const Feed = (props) => {
         prevPosts.map((post) =>
           post._id === postID
             ? {
-                ...post,
-                comments: [...post.comments, { userID: uid, comment: comment }],
-              }
+              ...post,
+              comments: [...post.comments, { userID: uid, comment: comment }],
+            }
             : post
         )
       );
@@ -236,6 +236,7 @@ const Feed = (props) => {
           >
             <AddPost
               tokenApp={tokenApp}
+              SetAllPost={SetAllPost}
               getAllPosts={getAllPosts}
               setPage={setPage}
             />
@@ -293,11 +294,10 @@ const Feed = (props) => {
                                   sx={{ bgcolor: red[500] }}
                                   aria-label="recipe"
                                   // src={each.user.image}
-                                  src={`http://localhost:8080/${
-                                    users.filter(
-                                      (user) => each.userID === user._id
-                                    )[0].image
-                                  }`}
+                                  src={`http://localhost:8080/${users.filter(
+                                    (user) => each.userID === user._id
+                                  )[0].image
+                                    }`}
                                 >
                                   {/* {each.user?.firstname.charAt(0)} */}
                                 </Avatar>
@@ -437,12 +437,11 @@ const Feed = (props) => {
                                               fontSize: "15px",
                                             }}
                                             aria-label="recipe"
-                                            src={`http://localhost:8080/${
-                                              users.filter(
-                                                (user) =>
-                                                  each2.userID === user._id
-                                              )[0]?.image
-                                            }`}
+                                            src={`http://localhost:8080/${users.filter(
+                                              (user) =>
+                                                each2.userID === user._id
+                                            )[0]?.image
+                                              }`}
                                           >
                                             {/* {each2.user.charAt(0)} */}
                                           </Avatar>
