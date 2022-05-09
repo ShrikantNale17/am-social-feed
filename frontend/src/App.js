@@ -10,8 +10,8 @@ import LoginPage from "./Components/LoginPage";
 import Feed from "./Components/Feed";
 import EditProfile from "./Components/EditProfile";
 import { useState } from "react";
-import Header from "./Components/Header";
-import AddPost from "./Components/AddPost";
+// import Header from "./Components/Header";
+// import AddPost from "./Components/AddPost";
 
 function App() {
   const [tokenApp, setTokenApp] = useState("");

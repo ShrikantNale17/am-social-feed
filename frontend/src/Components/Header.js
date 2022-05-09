@@ -6,10 +6,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
+// import AccountCircle from "@mui/icons-material/AccountCircle";
+// import Switch from "@mui/material/Switch";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormGroup from "@mui/material/FormGroup";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
@@ -17,10 +17,10 @@ import Modal from "@mui/material/Modal";
 import { Avatar, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { CloudDone } from "@mui/icons-material";
-import CloseIcon from "@mui/icons-material/Close";
+// import { CloudDone } from "@mui/icons-material";
+// import CloseIcon from "@mui/icons-material/Close";
 import Snackbar from "@mui/material/Snackbar";
-import Stack from "@mui/material/Stack";
+// import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -46,7 +46,7 @@ const Header = (props) => {
   const id = localStorage.getItem("id");
   const Navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [toggle, settoggle] = React.useState(false);
+  // const [toggle, settoggle] = React.useState(false);
   const [userData, setUserData] = React.useState({
     image: "",
     name: "",
@@ -71,7 +71,7 @@ const Header = (props) => {
       });
   }, [counter1]);
   // console.log(userData);
-  const [tempState, setTempState] = React.useState(true);
+  // const [tempState, setTempState] = React.useState(true);
 
   const handleMenu = (event) => {
     console.log(event);
@@ -328,7 +328,7 @@ const Header = (props) => {
                 onClick={handleMenu}
                 alt="avatar"
                 src={`http://localhost:8080/${userData.image}`}
-                // className={classes.avatar}
+              // className={classes.avatar}
               >
                 {userData.name?.charAt(0)}
               </Avatar>

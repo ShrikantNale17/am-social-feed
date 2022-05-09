@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import GoogleLogin from "react-google-login";
-import whatsAppBack from "./Images/whatsappBack.jpg";
+// import whatsAppBack from "./Images/whatsappBack.jpg";
 import "./CSS/LoginC.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import Stack from "@mui/material/Stack";
+// import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
@@ -22,7 +22,7 @@ const LoginPage = (props) => {
   const { tokenhandler } = props;
   const emailregex = /^[\w%\+\-]+(\.[\w%\+\-]+)*@[\w%\+\-]+(\.[\w%\+\-]+)+$/;
 
-  const [token, setToken] = useState();
+  // const [token, setToken] = useState();
   const Navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: "",
@@ -150,7 +150,6 @@ const LoginPage = (props) => {
             justifyContent: "center",
             alignItems: "center",
             //   margin: "auto",
-            alignItems: "center",
             // padding: "auto",
             "& > :not(style)": { m: "auto" },
           }}
