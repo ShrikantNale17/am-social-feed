@@ -23,7 +23,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 const AddPost = (props) => {
   const imageRef = React.useRef();
   const Navigate = useNavigate();
-  var { CounterHandler, getAllPosts, setPage } = props;
+  var { CounterHandler, SetAllPost, getAllPosts, setPage } = props;
   const Token = localStorage.getItem("Token");
   const id = localStorage.getItem("id");
   const [count, setCount] = React.useState(1);
@@ -103,6 +103,7 @@ const AddPost = (props) => {
         setToasterClr("success");
         setToasterMsg("Post Added Successfully...");
         imageRef.current.value = null;
+        SetAllPost(prev => [res.data.post, ...prev])
       })
       .catch((err) => {
         console.log(err);
@@ -114,8 +115,8 @@ const AddPost = (props) => {
         setToasterMsg("Post Not Added Try Again...");
       });
     setAddPost({ userID: id, image: "", caption: "" });
-    setPage(1);
-    getAllPosts();
+    // setPage(1);
+    // getAllPosts();
   };
   console.log(addPost);
 
