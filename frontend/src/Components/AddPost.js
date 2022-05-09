@@ -80,44 +80,50 @@ const AddPost = (props) => {
   // };
 
   const PostHandler = async () => {
-    formData.append("image", addPost.image);
-    formData.append("caption", addPost.caption);
-    formData.append("userID", addPost.userID);
-    console.log(formData.get("image"));
-    await axios
-      .post("http://localhost:8080/posts/addPost", formData, {
-        headers: {
-          authorization: Token,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        formData.delete("image");
-        formData.delete("caption");
-        formData.delete("userId");
-        var temp = count + 1;
-        setCount(count + 1);
-        CounterHandler = temp;
-        setAddPost({ userID: id, image: "", caption: "" });
-        setOpen(true);
-        setToasterClr("success");
-        setToasterMsg("Post Added Successfully...");
-        imageRef.current.value = null;
-        SetAllPost((prev) => [res.data.post, ...prev]);
-      })
-      .catch((err) => {
-        console.log(err);
-        formData.delete("image");
-        formData.delete("caption");
-        formData.delete("userId");
-        setOpen(true);
-        setToasterClr("error");
-        imageRef.current.value = null;
-        setToasterMsg("Post Not Added Try Again...");
-      });
-    setAddPost({ userID: id, image: "", caption: "" });
-    // setPage(1);
-    // getAllPosts();
+    if (addPost.image) {
+      formData.append("image", addPost.image);
+      formData.append("caption", addPost.caption);
+      formData.append("userID", addPost.userID);
+      console.log(formData.get("image"));
+      await axios
+        .post("http://localhost:8080/posts/addPost", formData, {
+          headers: {
+            authorization: Token,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          formData.delete("image");
+          formData.delete("caption");
+          formData.delete("userId");
+          var temp = count + 1;
+          setCount(count + 1);
+          CounterHandler = temp;
+          setAddPost({ userID: id, image: "", caption: "" });
+          setOpen(true);
+          setToasterClr("success");
+          setToasterMsg("Post Added Successfully...");
+          imageRef.current.value = null;
+          SetAllPost((prev) => [res.data.post, ...prev]);
+        })
+        .catch((err) => {
+          console.log(err);
+          formData.delete("image");
+          formData.delete("caption");
+          formData.delete("userId");
+          setOpen(true);
+          setToasterClr("error");
+          imageRef.current.value = null;
+          setToasterMsg("Post Not Added Try Again...");
+        });
+      setAddPost({ userID: id, image: "", caption: "" });
+      // setPage(1);
+      // getAllPosts();
+    } else {
+      setOpen(true);
+      setToasterClr("error");
+      setToasterMsg("Image Not Added....");
+    }
   };
   console.log(addPost);
 
