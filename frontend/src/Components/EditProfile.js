@@ -58,6 +58,7 @@ const EditProfile = () => {
     userID: id,
   });
   const [counter, setCounter] = useState(1);
+  const [counter1, setCounter1] = useState(1);
   const [open, setOpen] = useState(false);
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
@@ -145,7 +146,8 @@ const EditProfile = () => {
         setOpen(true);
         setToasterClr("success");
         setToasterMsg("Profile Updated  Successfully");
-        Navigate("/");
+        setCounter1((prev) => prev + 1);
+        // Navigate("/");
       })
       .catch((err) => {
         console.log(err);
@@ -240,7 +242,7 @@ const EditProfile = () => {
         borderRight: "20px solid #AFE1AF",
       }}
     >
-      <Header />
+      <Header counter1={counter1} />
 
       <Grid container m={4}>
         <Grid minHeight="60%" item md={3}>
@@ -457,6 +459,16 @@ const EditProfile = () => {
           onClick={() => Navigate("/")}
         >
           Cancel
+        </Button>
+      </Box>
+      <Box textAlign="center" sx={{ margin: "20px" }}>
+        <Button
+          variant="error"
+          onClick={() => {
+            Navigate("/");
+          }}
+        >
+          Back To Feed
         </Button>
       </Box>
     </Box>
