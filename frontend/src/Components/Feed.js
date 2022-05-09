@@ -27,6 +27,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import MuiAlert from "@mui/material/Alert";
 import Skeleton from "@mui/material/Skeleton";
+import { useNavigate } from "react-router-dom";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />; //returns something
@@ -44,6 +45,7 @@ const ExpandMore = styled((props) => {
 }));
 
 const Feed = (props) => {
+  const Navigate = useNavigate();
   const { tokenApp } = props;
   const Token = localStorage.getItem("Token");
   const uid = localStorage.getItem("id");
@@ -96,6 +98,9 @@ const Feed = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        if (err.message === "Request failed with status code 400") {
+          Navigate("/login");
+        }
         setLoading(false);
       });
   };
@@ -156,6 +161,7 @@ const Feed = (props) => {
           }
         )
         .then((res) => console.log(res));
+
       setComment("");
       // getAllPosts();
       setOpen(true);
