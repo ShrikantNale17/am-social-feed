@@ -63,6 +63,8 @@ const EditProfile = () => {
   const [toasterClr, setToasterClr] = useState("");
   const [toasterMsg, setToasterMsg] = useState("");
   const [temp, setTemp] = useState("");
+  const [preview, setPreview] = React.useState();
+
   console.log(uploadImg);
   useEffect(() => {
     if (uploadImg.image) {
@@ -396,11 +398,11 @@ const EditProfile = () => {
 
             <Grid item md={5}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <label>Date of Birth</label>
                 <DatePicker
                   //   label="Date of Birth"
                   sx={{ bgcolor: "black" }}
                   name="dob"
+                  label="Date of Birth"
                   value={userData.DOB || null}
                   onChange={(newValue) => {
                     setUserData({ ...userData, DOB: newValue });
