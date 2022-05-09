@@ -103,7 +103,7 @@ const AddPost = (props) => {
         setToasterClr("success");
         setToasterMsg("Post Added Successfully...");
         imageRef.current.value = null;
-        SetAllPost(prev => [res.data.post, ...prev])
+        SetAllPost((prev) => [res.data.post, ...prev]);
       })
       .catch((err) => {
         console.log(err);
@@ -112,6 +112,7 @@ const AddPost = (props) => {
         formData.delete("userId");
         setOpen(true);
         setToasterClr("error");
+        imageRef.current.value = null;
         setToasterMsg("Post Not Added Try Again...");
       });
     setAddPost({ userID: id, image: "", caption: "" });
@@ -197,9 +198,12 @@ const AddPost = (props) => {
               variant="outlined"
               placeholder="Add Caption ..."
               value={addPost.caption}
-              onChange={(e) =>
-                setAddPost({ ...addPost, caption: e.target.value })
-              }
+              onChange={(e) => {
+                if (e.target.value === " ") {
+                  e.target.value = "";
+                }
+                setAddPost({ ...addPost, caption: e.target.value });
+              }}
               // style={{ width: "80%" }}
               inputProps={{
                 style: {
