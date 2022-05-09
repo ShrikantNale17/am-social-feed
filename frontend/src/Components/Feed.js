@@ -1,8 +1,8 @@
-import { Box, Button, Grid, Input, TextField } from "@mui/material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AddPost from "./AddPost";
 import Header from "./Header";
-import TextareaAutosize from "@mui/material/TextareaAutosize";
+// import TextareaAutosize from "@mui/material/TextareaAutosize";
 import whatsAppBack from "./Images/whatsappBack.jpg";
 
 // import whatsAppBack from "./Images"
@@ -18,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+// import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import axios from "axios";
@@ -50,7 +50,7 @@ const Feed = (props) => {
   const Token = localStorage.getItem("Token");
   const uid = localStorage.getItem("id");
   // console.log(Token, "hey");
-  const key = tokenApp.token;
+  // const key = tokenApp.token;
   const [allPost, SetAllPost] = useState([]);
   const [comment, setComment] = useState("");
   const [expanded, setExpanded] = React.useState(-1);
@@ -89,7 +89,7 @@ const Feed = (props) => {
     axios
       .get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
         headers: {
-       
+
           authorization: Token,
         },
       })
@@ -289,10 +289,10 @@ const Feed = (props) => {
                               maxWidth: 500,
                               // padding: "15px",
                               // border: "1px solid black",
-                              marginRight: "20px",
-
-                              boxShadow:
-                                "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px 2.8px 2.2px rgba(0, 0, 0, 0.034)",
+                              // marginRight: "20px",
+                              // border: '1px solid grey',
+                              boxShadow: '3px 3px 8px 8px #d7d7d7'
+                              // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px 2.8px 2.2px rgba(0, 0, 0, 0.034)",
                             }}
                           >
                             <CardHeader

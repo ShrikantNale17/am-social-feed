@@ -14,13 +14,13 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Header from "./Header";
 import FormLabel from "@mui/material/FormLabel";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { upload } from "@testing-library/user-event/dist/upload";
+// import { upload } from "@testing-library/user-event/dist/upload";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import MuiPhoneNumber from "material-ui-phone-number";
-import { set } from "date-fns";
+// import { set } from "date-fns";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -34,14 +34,14 @@ const EditProfile = () => {
   const [image, setImage] = useState(true);
   const emailregex = /^[\w%\+\-]+(\.[\w%\+\-]+)*@[\w%\+\-]+(\.[\w%\+\-]+)+$/;
   const Navigate = useNavigate();
-  var tempImage =
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+  // var tempImage =
+  //   "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
   const formData = new FormData();
   const [tempState, setTempState] = useState(false);
   const [tempState1, setTempState1] = useState(false);
   const [tempState2, setTempState2] = useState(false);
-  const [tempState3, setTempState3] = useState(false);
+  // const [tempState3, setTempState3] = useState(false);
   const [userData, setUserData] = useState({
     firstname: "",
     lastname: "",
