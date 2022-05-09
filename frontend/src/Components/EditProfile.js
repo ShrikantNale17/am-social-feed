@@ -81,6 +81,8 @@ const EditProfile = () => {
         },
       })
       .then((res) => {
+        console.log(res);
+
         setUserData({
           ...userData,
           firstname: res.data.firstname,
@@ -94,7 +96,10 @@ const EditProfile = () => {
         setOldProfilePic(res.data.image);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err, "edit err");
+        if (err.message === "Request failed with status code 400") {
+          Navigate("/login");
+        }
       });
   }, [counter]);
 
