@@ -61,6 +61,7 @@ const Feed = (props) => {
 	const [toasterMsg, setToasterMsg] = useState("");
 	const [page, setPage] = useState(1);
 	const [loading, setLoading] = useState(true);
+	const [totalPages, setTotalPages] = useState(1);
 
 	const CounterHandler = (count) => {
 		console.log(count);
@@ -68,6 +69,7 @@ const Feed = (props) => {
 	};
 	// console.log(tokenApp);
 	useEffect(() => {
+		window.scrollTo(0, 0);
 		getAllPosts();
 		getAllUsers();
 		/* axios
@@ -83,11 +85,17 @@ const Feed = (props) => {
 		  .catch((err) => {
 			console.log(err);
 		  }); */
-	}, [counter]);
+	}, []);
 
-	const getAllPosts = () => {
-		axios
-			.get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
+	useEffect(() => {
+		if (page !== 1 && page <= totalPages) {
+			getAllPosts();
+		}
+	}, [page])
+
+	const getAllPosts = async () => {
+		await axios
+			.get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=5`, {
 				headers: {
 
 					authorization: Token,
@@ -95,7 +103,9 @@ const Feed = (props) => {
 			})
 			.then((res) => {
 				console.log(res);
-				SetAllPost(res.data.message);
+				// SetAllPost(res.data.message);
+				SetAllPost([...allPost, ...res.data.message]);
+				setTotalPages(res.data.pages);
 			})
 			.catch((err) => {
 				console.log(err);
@@ -190,21 +200,22 @@ const Feed = (props) => {
 
 	const fetchMoreData = () => {
 		setTimeout(() => {
-			axios
-				.get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
-					headers: {
-						authorization: Token,
-					},
-				})
-				.then((res) => {
-					console.log(res);
-					SetAllPost([...allPost, ...res.data.message]);
-					setPage((prev) => prev + 1);
-				})
-				.catch((err) => {
-					console.log(err);
-					setLoading(false);
-				});
+			// axios
+			// 	.get(`http://localhost:8080/posts/allPosts?pageNo=${page}&size=2`, {
+			// 		headers: {
+			// 			authorization: Token,
+			// 		},
+			// 	})
+			// 	.then((res) => {
+			// 		console.log(res);
+			// 		SetAllPost([...allPost, ...res.data.message]);
+			setPage((prev) => prev + 1);
+			console.log(page)
+			// })
+			// .catch((err) => {
+			// 	console.log(err);
+			// 	setLoading(false);
+			// });
 		}, 1000);
 	};
 
@@ -255,8 +266,14 @@ const Feed = (props) => {
 					<Box style={{ margin: "auto" }}>
 						<InfiniteScroll
 							dataLength={allPost?.length}
+							scrollThreshold={0.99}
 							next={fetchMoreData}
-							hasMore={true}
+							hasMore={page <= totalPages}
+							endMessage={
+								<p style={{ textAlign: 'center' }}>
+									<b>Yay! You have seen it all</b>
+								</p>
+							}
 							loader={
 								<Box sx={{ minWidth: 500, maxWidth: 500, m: "10px auto" }}>
 

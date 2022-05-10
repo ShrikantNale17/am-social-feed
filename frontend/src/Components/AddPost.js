@@ -104,7 +104,7 @@ const AddPost = (props) => {
           setToasterClr("success");
           setToasterMsg("Post Added Successfully...");
           imageRef.current.value = null;
-          SetAllPost((prev) => [res.data.post, ...prev]);
+          SetAllPost((prev) => [res.data.post, ...prev.slice(0, -1)]);
         })
         .catch((err) => {
           console.log(err);

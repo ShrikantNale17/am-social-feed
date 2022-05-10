@@ -15,7 +15,7 @@ import { useState } from "react";
 
 function App() {
   const [tokenApp, setTokenApp] = useState("");
-
+  window.scrollTo(0, 0)
   const tokenhandler = (id) => {
     console.log(id);
     setTokenApp(id);
